@@ -1,15 +1,13 @@
-import Diary from "./components/Diary";
+import { Routes, Route } from "react-router-dom";
+import Layout from "./layout/Layout";
+import Home from "./pages/Home";
 
-function App() {
+export function App() {
   return (
-    <section className="p-5">
-      <h2 className="mb-2 text-center">
-        보고싶은 일기가 있다면
-        <br /> 날짜를 클릭해주세요.
-      </h2>
-      <Diary />
-    </section>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route path="/" element={<Home />} />
+      </Route>
+    </Routes>
   );
 }
-
-export default App;
