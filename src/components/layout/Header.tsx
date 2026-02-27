@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Button from "../Button";
 
 export default function Header() {
   const [dark, setDark] = useState(true);
@@ -11,9 +12,9 @@ export default function Header() {
         </Link>
       </h1>
       <div className="flex items-center gap-2">
-        <p onClick={() => setDark((prev) => !prev)}>
+        <Button onClick={() => setDark((prev) => !prev)} variant="light">
           {dark ? "밝게" : "어둡게"}
-        </p>
+        </Button>
         <Link to={"/login"}>로그인</Link>
       </div>
     </header>

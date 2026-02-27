@@ -1,7 +1,8 @@
 import "react-day-picker/dist/style.css";
 import { DayPicker } from "react-day-picker";
 import { ko } from "react-day-picker/locale";
-import { formatKoreanMonth } from "../utils/dateFormat";
+import { formatKoreanMonth } from "../../utils/dateFormat";
+import Button from "../Button";
 
 type CalendarProps = {
   selected: Date;
@@ -24,7 +25,7 @@ export default function Calendar({
   return (
     <div className="bg-white/30 p-6 rounded-2xl shadow-md overflow-x-auto">
       <div className="mx-auto w-fit">
-        <button onClick={handleToday}>오늘로 돌아가기</button>
+        <Button onClick={handleToday}>오늘</Button>
         <DayPicker
           month={month}
           onMonthChange={onMonth}
