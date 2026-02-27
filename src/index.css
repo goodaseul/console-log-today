@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 캘린더 css */
+.rdp-root {
+  --rdp-accent-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.rdp-day_button {
+  border-color: none !important;
+  border-radius: 10px !important;
+}
+.rdp-today {
+  font-weight: bold !important;
+  border: rgba(0, 0, 0, 0.3) !important;
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  color: #fff !important;
+  transition: all 0.3s;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}
+.rdp-day_button:hover,
+.rdp-selected .rdp-day_button {
+  background-color: white !important;
+  border-color: white !important;
+  color: rgba(0, 0, 0, 0.3) !important;
+}
