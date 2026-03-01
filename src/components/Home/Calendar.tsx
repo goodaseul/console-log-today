@@ -23,7 +23,7 @@ export default function Calendar({
     onMonth(today);
   };
   return (
-    <div className="bg-white/30 p-6 rounded-2xl shadow-md overflow-x-auto">
+    <div className="flex-1 bg-white/30 p-6 rounded-2xl shadow-md overflow-x-auto">
       <div className="mx-auto w-fit">
         <Button onClick={handleToday}>오늘</Button>
         <DayPicker

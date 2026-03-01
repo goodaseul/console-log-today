@@ -7,7 +7,7 @@ export default function Diary() {
   const [month, setMonth] = useState(new Date());
 
   return (
-    <div className="md:flex gap-5 md:gap-5 md:justify-between">
+    <div className="md:flex gap-5 md:gap-5 md:justify-between items-stretch">
       <Calendar
         month={month}
         onMonth={setMonth}
