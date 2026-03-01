@@ -2,20 +2,26 @@ import { useEffect, useRef, useState } from "react";
 
 export default function DiaryContent() {
   const [isContentEnd, setIsContentEnd] = useState(false);
+  const [hasScroll, setHasScroll] = useState(false);
+
   const diaryContentRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const el = diaryContentRef.current;
     if (!el) return;
 
-    const handleScroll = () => {
+    const checkScorll = () => {
+      const hasScroll = el.scrollHeight > el.clientHeight;
+      setHasScroll(hasScroll);
       const isEnd = el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
       setIsContentEnd(isEnd);
     };
-    handleScroll();
-    el.addEventListener("scroll", handleScroll);
+    checkScorll();
+    el.addEventListener("scroll", checkScorll);
+    window.addEventListener("resize", checkScorll);
 
     return () => {
-      el.removeEventListener("scroll", handleScroll);
+      el.removeEventListener("scroll", checkScorll);
+      window.removeEventListener("resize", checkScorll);
     };
   }, []);
 
@@ -28,6 +34,7 @@ export default function DiaryContent() {
         transition-all
         ${
           !isContentEnd &&
+          hasScroll &&
           "mask-[linear-gradient(to_bottom,black_80%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)]"
         }
       `}
