@@ -7,19 +7,39 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { joinSchema, type JoinFormValues } from "@/schema/auth/join.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+type JoinInputs = {
+  name: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+};
 
 export default function Join() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<JoinFormValues>({
+    resolver: zodResolver(joinSchema),
+  });
+  const onSubmit: SubmitHandler<JoinInputs> = (data) => console.log(data);
+
   return (
     <div className="max-w-3xl mx-auto py-10 flex justify-center">
-      <form className="w-full max-w-sm">
+      <form className="w-full max-w-sm" onSubmit={handleSubmit(onSubmit)}>
         <FieldGroup>
           <Field>
-            <FieldLabel htmlFor="form-name">이름</FieldLabel>
+            <FieldLabel htmlFor="form-name">닉네임</FieldLabel>
             <Input
               id="form-name"
               type="text"
               placeholder="닉네임을 적어주세요."
+              {...register("name")}
             />
+            <p>{errors.name?.message}</p>
           </Field>
           <Field>
             <FieldLabel htmlFor="form-email">이메일</FieldLabel>
@@ -27,8 +47,9 @@ export default function Join() {
               id="form-email"
               type="email"
               placeholder="john@example.com"
-              required
+              {...register("email")}
             />
+            <p>{errors.email?.message}</p>
           </Field>
           <Field>
             <FieldLabel htmlFor="form-password">비밀번호</FieldLabel>
@@ -36,8 +57,9 @@ export default function Join() {
               id="form-password"
               type="password"
               placeholder="비밀번호를 입력해주세요."
-              required
+              {...register("password")}
             />
+            <p>{errors.password?.message}</p>
           </Field>
           <Field>
             <FieldLabel htmlFor="form-password-confirm">
@@ -47,8 +69,9 @@ export default function Join() {
               id="form-passwor-confirm"
               type="password"
               placeholder="비밀번호를 입력해주세요."
-              required
+              {...register("passwordConfirm")}
             />
+            <p>{errors.passwordConfirm?.message}</p>
           </Field>
           <Link to={"/login"}>
             <FieldDescription>로그인 ➔</FieldDescription>
