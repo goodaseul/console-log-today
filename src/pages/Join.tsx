@@ -6,10 +6,12 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { joinSchema, type JoinFormValues } from "@/schema/auth/join.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signUp } from "@/api/auth.api";
+import { toast } from "sonner";
 type JoinInputs = {
   name: string;
   email: string;
@@ -25,8 +27,16 @@ export default function Join() {
   } = useForm<JoinFormValues>({
     resolver: zodResolver(joinSchema),
   });
-  const onSubmit: SubmitHandler<JoinInputs> = (data) => console.log(data);
-
+  const naviagate = useNavigate();
+  const onSubmit: SubmitHandler<JoinInputs> = async (data) => {
+    const { error } = await signUp(data.email, data.password, data.name);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("회원가입이 되었습니다.");
+    naviagate("/");
+  };
   return (
     <div className="max-w-3xl mx-auto py-10 flex justify-center">
       <form className="w-full max-w-sm" onSubmit={handleSubmit(onSubmit)}>

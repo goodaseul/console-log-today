@@ -6,8 +6,11 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { signIn } from "@/api/auth.api";
+import { toast } from "sonner";
+import { useAuthStore } from "@/stores/auth.store";
 
 type LoginInputs = {
   email: string;
@@ -20,9 +23,24 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginInputs>();
+  const setUser = useAuthStore((state) => state.setUser);
+  const navigate = useNavigate();
+  const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
+    const { data: res, error } = await signIn(data.email, data.password);
+    if (error) {
+      toast.error(`${error}`);
+      return;
+    } else {
+      setUser({
+        id: res.user.id,
+        email: res.user.email ?? "",
+        name: res.user.user_metadata?.name ?? "",
+      });
 
-  const onSubmit: SubmitHandler<LoginInputs> = (data) => console.log(data);
-
+      toast.success("로그인에 성공했습니다.");
+      navigate("/");
+    }
+  };
   return (
     <div className="max-w-3xl mx-auto py-10 flex justify-center">
       <form className="w-full max-w-sm" onSubmit={handleSubmit(onSubmit)}>
