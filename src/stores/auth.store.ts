@@ -2,8 +2,8 @@ import { create } from "zustand";
 
 type User = {
   id: string;
-  email: string;
-  name?: string;
+  nickname: string;
+  avatar_url: string;
 } | null;
 
 type AuthState = {

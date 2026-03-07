@@ -10,7 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { signIn } from "@/api/auth.api";
 import { toast } from "sonner";
-import { useAuthStore } from "@/stores/auth.store";
+import { useAuthInit } from "@/hooks/useAuthInit";
 
 type LoginInputs = {
   email: string;
@@ -18,28 +18,33 @@ type LoginInputs = {
 };
 
 export default function Login() {
+  const { syncUser } = useAuthInit();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginInputs>();
-  const setUser = useAuthStore((state) => state.setUser);
   const navigate = useNavigate();
   const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
     const { data: res, error } = await signIn(data.email, data.password);
     if (error) {
-      toast.error(`${error}`);
+      toast.error(error.message);
       return;
-    } else {
-      setUser({
-        id: res.user.id,
-        email: res.user.email ?? "",
-        name: res.user.user_metadata?.name ?? "",
-      });
-
-      toast.success("로그인에 성공했습니다.");
-      navigate("/");
     }
+    if (!res?.user) {
+      toast.error("로그인 정보가 없습니다.");
+      return;
+    }
+
+    const ok = await syncUser(res.user.id);
+
+    if (!ok) {
+      toast.error("프로필 정보를 불러오지 못했습니다.");
+      return;
+    }
+
+    toast.success("로그인에 성공했습니다.");
+    navigate("/");
   };
   return (
     <div className="max-w-3xl mx-auto py-10 flex justify-center">

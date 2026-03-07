@@ -3,6 +3,7 @@ import Button from "../Button";
 import { signOut } from "@/api/auth.api";
 import { useAuthStore } from "@/stores/auth.store";
 import { useThemeStore } from "@/stores/theme.store";
+import { toast } from "sonner";
 
 export default function Header() {
   const user = useAuthStore((state) => state.user);
@@ -12,6 +13,7 @@ export default function Header() {
   const toggleTheme = useThemeStore((state) => state.toggleTheme);
   const handleLogout = async () => {
     await signOut();
+    toast.success("로그아웃 됐습니다.");
     clearUser();
   };
   return (
@@ -29,8 +31,17 @@ export default function Header() {
           <Link to={"/login"}>🔒</Link>
         ) : (
           <div className="flex items-center">
-            <img src="" alt="" />
-            <p>{user.name}</p>
+            <img
+              className="w-8 h-8 rounded-full"
+              src={
+                user.avatar_url ??
+                `https://ui-avatars.com/api/?name=${user.nickname}`
+              }
+              alt=""
+            />
+            <Link to={"/mypage"} className="ml-2">
+              {user.nickname}
+            </Link>
             <Button className="ml-2" variant="light" onClick={handleLogout}>
               🔓
             </Button>

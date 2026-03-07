@@ -12,12 +12,6 @@ import { joinSchema, type JoinFormValues } from "@/schema/auth/join.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUp } from "@/api/auth.api";
 import { toast } from "sonner";
-type JoinInputs = {
-  name: string;
-  email: string;
-  password: string;
-  passwordConfirm: string;
-};
 
 export default function Join() {
   const {
@@ -28,10 +22,10 @@ export default function Join() {
     resolver: zodResolver(joinSchema),
   });
   const naviagate = useNavigate();
-  const onSubmit: SubmitHandler<JoinInputs> = async (data) => {
-    const { error } = await signUp(data.email, data.password, data.name);
-    if (error) {
-      toast.error(error.message);
+  const onSubmit: SubmitHandler<JoinFormValues> = async (data) => {
+    const result = await signUp(data.email, data.password, data.name);
+    if (!result.success) {
+      toast.error(result.error ?? "회원가입이 실패했습니다.");
       return;
     }
     toast.success("회원가입이 되었습니다.");
@@ -76,7 +70,7 @@ export default function Join() {
               비밀번호 확인
             </FieldLabel>
             <Input
-              id="form-passwor-confirm"
+              id="form-password-confirm"
               type="password"
               placeholder="비밀번호를 입력해주세요."
               {...register("passwordConfirm")}
