@@ -37,7 +37,7 @@ export default function Header() {
                 user.avatar_url ??
                 `https://ui-avatars.com/api/?name=${user.nickname}`
               }
-              alt=""
+              alt={`${user.nickname} 프로필 사진`}
             />
             <Link to={"/mypage"} className="ml-2">
               {user.nickname}

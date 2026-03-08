@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
-export default function DiaryContent() {
+export default function DiaryContent({ data }: { data: string }) {
   const [isContentEnd, setIsContentEnd] = useState(false);
   const [hasScroll, setHasScroll] = useState(false);
-
   const diaryContentRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const el = diaryContentRef.current;
@@ -40,15 +39,7 @@ export default function DiaryContent() {
       `}
       ref={diaryContentRef}
     >
-      오늘도 공부를 해야하다니!!!! 으악 취준은 힘들어잉 오늘은 젤리2개를 샀는데,
-      저녁까지 먹으니까 배가 안고프다...? 머징 요새 알고리즘 공부중인데, 많이
-      많이 어렵당 ^^ 생각보다 콘텐츠에 많이 써야하네 ;; 아몰랑 반복이댯! 오늘도
-      공부를 해야하다니!!!! 으악 취준은 힘들어잉 오늘은 젤리2개를 샀는데,
-      저녁까지 먹으니까 배가 안고프다...? 머징 요새 알고리즘 공부중인데, 많이
-      많이 어렵당 ^^ 생각보다 콘텐츠에 많이 써야하네 ;; 아몰랑 반복이댯! 오늘도
-      공부를 해야하다니!!!! 으악 취준은 힘들어잉 오늘은 젤리2개를 샀는데,
-      저녁까지 먹으니까 배가 안고프다...? 머징 요새 알고리즘 공부중인데, 많이
-      많이 어렵당 ^^ 생각보다 콘텐츠에 많이 써야하네 ;; 아몰랑 반복이댯!
+      {data ?? "일기가 없습니다."}
     </div>
   );
 }
