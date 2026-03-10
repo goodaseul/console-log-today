@@ -1,13 +1,19 @@
 import { supabase } from "@/lib/supabase";
+import type { CreateDiaryRequest } from "./types/diary";
 
 const TABLE = "diaries";
 
-export const createDiary = async (userId: string, content: string) => {
+export const createDiary = async ({
+  userId,
+  content,
+  diaryDate,
+}: CreateDiaryRequest) => {
   const { data, error } = await supabase
     .from(TABLE)
     .insert({
-      userId: userId,
+      userId,
       content,
+      diaryDate,
     })
     .select()
     .single();
@@ -19,7 +25,7 @@ export const getDiaryByDate = async (date: string) => {
   const { data, error } = await supabase
     .from(TABLE)
     .select("content")
-    .eq("diary_date", date)
+    .eq("diaryDate", date)
     .maybeSingle();
 
   if (error) throw error;

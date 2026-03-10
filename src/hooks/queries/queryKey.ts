@@ -1,6 +1,7 @@
 export const queryKeys = {
   diary: {
     all: ["diary"],
-    diaryByDate: (date: string) => [...queryKeys.diary.all, date],
+    lists: () => [...queryKeys.diary.all, "list"] as const,
+    detail: (date: string) => [...queryKeys.diary.all, date] as const,
   },
 };
