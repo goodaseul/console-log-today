@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import type { CreateDiaryRequest } from "./types/diary";
+import type { CreateDiaryRequest, UpdateDiaryRequest } from "./types/diary";
 
 const TABLE = "diaries";
 
@@ -32,7 +32,25 @@ export const getDiaryByDate = async (date: string) => {
   return data;
 };
 
-export const deleteDiary = async (id: string) => {
-  const { error } = await supabase.from(TABLE).delete().eq("id", id);
+export const deleteDiary = async (date: string) => {
+  const { error } = await supabase.from(TABLE).delete().eq("diaryDate", date);
   if (error) throw error;
+};
+
+export const updateDiary = async ({
+  userId,
+  diaryDate,
+  content,
+}: UpdateDiaryRequest) => {
+  const { data, error } = await supabase
+    .from(TABLE)
+    .update({ content })
+    .eq("userId", userId)
+    .eq("diaryDate", diaryDate)
+    .select()
+    .single();
+
+  if (error) throw error;
+
+  return data;
 };

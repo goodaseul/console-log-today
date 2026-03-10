@@ -1,8 +1,8 @@
 import "react-day-picker/dist/style.css";
 import { DayPicker } from "react-day-picker";
 import { ko } from "react-day-picker/locale";
-import { formatKoreanMonth } from "../../utils/dateFormat";
-import Button from "../Button";
+import { formatKoreanMonth } from "@/utils/dateFormat";
+import Button from "@/components/Button";
 
 type CalendarProps = {
   selected: Date;

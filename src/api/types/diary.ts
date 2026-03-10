@@ -3,3 +3,5 @@ export type CreateDiaryRequest = {
   content: string;
   diaryDate: string;
 };
+
+export type UpdateDiaryRequest = CreateDiaryRequest;

@@ -11,15 +11,15 @@ export default function Button({
   variant = "dark",
   className,
 }: ButtonProps) {
-  const baseStyle = `px-2 py-1 rounded-md cursor-pointer`;
+  const baseStyle = `px-2 py-1 rounded-md cursor-pointer border`;
   const variants = {
-    dark: "bg-black/30 text-white",
-    light: "bg-white text-black border border-black/20",
+    dark: "bg-black/30 text-white border-transparent",
+    light: "bg-white text-black border-black/20",
   };
   return (
     <button
       onClick={onClick}
-      className={`${baseStyle} ${variants[variant]} ${className}`}
+      className={`${baseStyle} ${variants[variant]} ${className} `}
     >
       {children}
     </button>
