@@ -76,3 +76,19 @@
   border-color: white !important;
   color: rgba(0, 0, 0, 0.3) !important;
 }
+
+.has-diary {
+  position: relative;
+}
+
+.has-diary::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  background: #22c55e;
+  border-radius: 9999px;
+}

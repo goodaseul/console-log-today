@@ -1,8 +1,10 @@
 import "react-day-picker/dist/style.css";
 import { DayPicker } from "react-day-picker";
 import { ko } from "react-day-picker/locale";
-import { formatKoreanMonth } from "@/utils/dateFormat";
+import { formatKoreanMonth, toYearMonth } from "@/utils/dateFormat";
 import Button from "@/components/Button";
+import { useDiaryByMonth } from "@/hooks/queries/useDiaryMonth";
+import { isSameDay } from "date-fns";
 
 type CalendarProps = {
   selected: Date;
@@ -17,6 +19,8 @@ export default function Calendar({
   month,
   onMonth,
 }: CalendarProps) {
+  const yearMonth = toYearMonth(month);
+  const { data } = useDiaryByMonth(yearMonth);
   const handleToday = () => {
     const today = new Date();
     onSelect(today);
@@ -25,7 +29,12 @@ export default function Calendar({
   return (
     <div className="flex-1 bg-white/30 p-6 rounded-2xl shadow-md overflow-x-auto">
       <div className="mx-auto w-fit">
-        <Button onClick={handleToday}>오늘</Button>
+        <div className="flex items-center justify-between">
+          <Button onClick={handleToday}>오늘</Button>
+          <p className="flex items-center gap-1 text-sm">
+            <i className="block w-2 h-2 bg-green-500 rounded-full" /> 일기 있음
+          </p>
+        </div>
         <DayPicker
           month={month}
           onMonthChange={onMonth}
@@ -37,6 +46,14 @@ export default function Calendar({
           onSelect={onSelect}
           formatters={{
             formatCaption: (date) => formatKoreanMonth(date),
+          }}
+          modifiers={{
+            hasDiary: (date) =>
+              data?.some((day) => isSameDay(new Date(day.diaryDate), date)) ??
+              false,
+          }}
+          modifiersClassNames={{
+            hasDiary: "has-diary",
           }}
         />
       </div>

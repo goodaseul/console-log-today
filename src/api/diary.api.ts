@@ -21,6 +21,21 @@ export const createDiary = async ({
   return data;
 };
 
+export const getDiariesByMonth = async (yearMonth: string) => {
+  const start = `${yearMonth}-01`;
+  const end = `${yearMonth}-31`;
+
+  const { data, error } = await supabase
+    .from("diaries")
+    .select("*")
+    .gte("diaryDate", start)
+    .lte("diaryDate", end);
+
+  if (error) throw error;
+
+  return data;
+};
+
 export const getDiaryByDate = async (date: string) => {
   const { data, error } = await supabase
     .from(TABLE)

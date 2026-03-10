@@ -12,3 +12,7 @@ export function formatKoreanDate(date: Date) {
 export function toDateKey(date: Date) {
   return format(date, "yyyy-MM-dd");
 }
+
+export function toYearMonth(date: Date) {
+  return format(date, "yyyy-MM");
+}
