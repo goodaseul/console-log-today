@@ -4,6 +4,7 @@ import { signOut } from "@/api/auth.api";
 import { useAuthStore } from "@/stores/auth.store";
 import { useThemeStore } from "@/stores/theme.store";
 import { toast } from "sonner";
+import { queryClient } from "@/lib/queryClient";
 
 export default function Header() {
   const user = useAuthStore((state) => state.user);
@@ -14,6 +15,7 @@ export default function Header() {
   const handleLogout = async () => {
     await signOut();
     toast.success("로그아웃 됐습니다.");
+    queryClient.removeQueries();
     clearUser();
   };
   return (

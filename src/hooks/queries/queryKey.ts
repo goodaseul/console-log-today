@@ -2,8 +2,9 @@ export const queryKeys = {
   diary: {
     all: ["diary"],
     lists: () => [...queryKeys.diary.all, "list"] as const,
-    detail: (date: string) => [...queryKeys.diary.all, date] as const,
-    month: (yearMonth: string) =>
-      [...queryKeys.diary.all, "month", yearMonth] as const,
+    detail: (userId: string | undefined, date: string) =>
+      [...queryKeys.diary.all, userId, date] as const,
+    month: (userId: string | undefined, yearMonth: string) =>
+      [...queryKeys.diary.all, "month", userId, yearMonth] as const,
   },
 };
