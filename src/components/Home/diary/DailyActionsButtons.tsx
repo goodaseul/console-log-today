@@ -1,5 +1,8 @@
 import Button from "@/components/Button";
+import { useAuthStore } from "@/stores/auth.store";
 import type { Mode } from "@/types/diaryType";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 type DailyActionsButtonsProps = {
   onModify: () => void;
@@ -22,8 +25,15 @@ export default function DailyActionsButtons({
   data,
   mode,
 }: DailyActionsButtonsProps) {
-  //   const hasDiary = data && data.length > 0;
-
+  const user = useAuthStore((state) => state.user);
+  const navigate = useNavigate();
+  const handleCreateDiary = () => {
+    if (!user) {
+      toast.error("로그인을 해주세요.");
+      navigate("/login");
+    }
+    setMode("create");
+  };
   return (
     <div className="flex gap-2">
       {mode === "create" && (
@@ -53,7 +63,7 @@ export default function DailyActionsButtons({
             </Button>
           </>
         ) : (
-          <Button onClick={() => setMode("create")}>일기 작성</Button>
+          <Button onClick={handleCreateDiary}>일기 작성</Button>
         ))}
     </div>
   );
