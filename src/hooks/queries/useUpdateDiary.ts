@@ -7,9 +7,9 @@ export const useUpdateDiary = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (request: UpdateDiaryRequest) => updateDiary(request),
-    onSuccess: (_, variables) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: queryKeys.diary.detail(variables.diaryDate),
+        queryKey: queryKeys.diary.all,
       });
     },
   });

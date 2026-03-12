@@ -8,7 +8,7 @@ export const useDiaryByMonth = (yearMonth: string) => {
 
   return useQuery({
     queryKey: queryKeys.diary.month(user?.id, yearMonth),
-    queryFn: () => getDiariesByMonth(yearMonth),
+    queryFn: () => getDiariesByMonth(user!.id, yearMonth),
     enabled: !!user,
   });
 };

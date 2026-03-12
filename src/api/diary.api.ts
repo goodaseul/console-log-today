@@ -21,13 +21,14 @@ export const createDiary = async ({
   return data;
 };
 
-export const getDiariesByMonth = async (yearMonth: string) => {
+export const getDiariesByMonth = async (userId: string, yearMonth: string) => {
   const start = `${yearMonth}-01`;
   const end = `${yearMonth}-31`;
 
   const { data, error } = await supabase
     .from("diaries")
     .select("*")
+    .eq("userId", userId)
     .gte("diaryDate", start)
     .lte("diaryDate", end);
 
@@ -36,15 +37,26 @@ export const getDiariesByMonth = async (yearMonth: string) => {
   return data;
 };
 
-export const getDiaryByDate = async (date: string) => {
+export const getDiaryByDate = async (userId: string, diaryDate: string) => {
   const { data, error } = await supabase
     .from(TABLE)
     .select("content")
-    .eq("diaryDate", date)
+    .eq("userId", userId)
+    .eq("diaryDate", diaryDate)
     .maybeSingle();
 
   if (error) throw error;
   return data;
+};
+
+export const getDiaryCount = async (userId: string) => {
+  const { count, error } = await supabase
+    .from(TABLE)
+    .select("*", { count: "exact", head: true })
+    .eq("userId", userId);
+
+  if (error) throw error;
+  return count;
 };
 
 export const deleteDiary = async (date: string) => {
