@@ -3,14 +3,15 @@ import { useDiaryCount } from "@/hooks/queries";
 import { useAuthStore } from "@/stores/auth.store";
 import type { MypageMode } from "@/types/diaryType";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Mypage() {
+  const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
   const { data: diaryCount } = useDiaryCount();
 
   const [mode, setMode] = useState<MypageMode>("view");
 
-  const today = new Date().toISOString().split("T")[0];
   const hours = new Date().getHours();
   const modifyMypage = () => {
     setMode("edit");
@@ -43,15 +44,16 @@ export default function Mypage() {
           <h3 className="text-md font-medium">
             {user?.nickname}님의 마이페이지입니다.
           </h3>
-          <p className="mt-5">
-            <span className="mx-1 rounded bg-red-100 px-2 py-0.5 font-semibold text-red-700">
-              {today}
-            </span>
-            까지 작성하신 게시물은 총
+          <p className="mt-5  whitespace-pre-line break-keep">
+            현재까지 작성하신 게시물은 총
             <span className="mx-1 rounded bg-yellow-100 px-2 py-0.5 font-semibold text-yellow-700">
               {diaryCount ?? 0}개
             </span>
             입니다.
+          </p>
+          <p>
+            지금 바로 오늘의 일기를 작성하러 가세요!
+            <Button onClick={() => navigate("/")}> 작성하러 가기</Button>
           </p>
         </div>
         <div className="mt-5 flex gap-2 justify-end">{buttonStatus}</div>
