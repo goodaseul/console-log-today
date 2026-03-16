@@ -7,6 +7,7 @@ export default function Home() {
         보고싶은 일기가 있다면
         <br /> 날짜를 클릭해주세요.
       </h2>
+
       <Diary />
     </section>
   );

@@ -24,7 +24,7 @@ export default function Mypage() {
       <Button variant="light" onClick={modifyMypage}>
         수정하기
       </Button>
-      <Button onClick={() => console.log("탈퇴할래영 ")}>탈퇴하기</Button>
+      <Button onClick={() => console.log("탈퇴할래영")}>탈퇴하기</Button>
     </>
   ) : (
     <>
@@ -56,17 +56,14 @@ export default function Mypage() {
         </div>
         <div className="mt-5 flex gap-2 justify-end">{buttonStatus}</div>
         <div className="mt-5 rounded-xl border-white flex items-center gap-5">
-          <label htmlFor="">
-            <input type="file" hidden />
-            <img
-              src={
-                user?.avatar_url ??
-                `https://ui-avatars.com/api/?name=${user?.nickname}`
-              }
-              className="w-20 h-20 rounded-full"
-              alt={`${user?.nickname} 프로필 사진`}
-            />
-          </label>
+          <img
+            src={
+              user?.avatar_url ??
+              `https://ui-avatars.com/api/?name=${user?.nickname}`
+            }
+            className="w-20 h-20 rounded-full"
+            alt={`${user?.nickname} 프로필 사진`}
+          />
           <h3 className="text-2xl">{user?.nickname}님</h3>
         </div>
       </div>
