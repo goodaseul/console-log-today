@@ -33,3 +33,36 @@ export const signIn = async (email: string, password: string) => {
 export const signOut = async () => {
   return await supabase.auth.signOut();
 };
+
+export const updateProfile = async (
+  userId: string,
+  nickname: string,
+  avatar_url: string | null,
+) => {
+  const { error } = await supabase
+    .from("profiles")
+    .update({
+      nickname,
+      avatar_url,
+    })
+    .eq("id", userId);
+
+  if (error) {
+    return { success: false, error: error.message };
+  }
+
+  return { success: true, error: null };
+};
+export const uploadAvatar = async (file: File, userId: string) => {
+  const filePath = `${userId}/avatar-${Date.now()}`;
+
+  const { error } = await supabase.storage
+    .from("avatars")
+    .upload(filePath, file, { upsert: true });
+
+  if (error) throw error;
+
+  const { data } = supabase.storage.from("avatars").getPublicUrl(filePath);
+
+  return data.publicUrl;
+};
