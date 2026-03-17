@@ -1,73 +1,57 @@
-# React + TypeScript + Vite
+# console.log(today)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- 사용자의 일기를 날짜별로 기록하고 관리할 수 있는 웹 애플리케이션입니다.
 
-Currently, two official plugins are available:
+- 캘린더 기반 UI를 통해 특정 날짜의 일기를 확인하고, 작성/수정/삭제할 수 있으며 연속 기록을 통해 사용자의 기록 습관을 시각적으로 제공합니다.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 주요 기능
 
-## React Compiler
+- 📅 캘린더 기반 일기 조회
+- ✍️ 일기 작성 / 수정 / 삭제 (CRUD)
+- 🔥 연속 기록(streak) 계산
+- 📊 월별 / 전체 작성 통계
+- 👤 프로필 수정 (닉네임, 아바타)
+- 🌙 다크모드 지원
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 기술 스택
 
-## Expanding the ESLint configuration
+- React
+- TypeScript
+- TanStack Query (React Query)
+- Zustand (전역 상태 관리)
+- Supabase (Auth / DB / Storage)
+- Tailwind CSS
+- date-fns
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 핵심 구현 포인트
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 1. React Query 기반 데이터 관리
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- queryKey를 도메인 단위로 구조화하여 캐시 일관성 유지
+- invalidateQueries를 활용해 CRUD 이후 데이터 자동 동기화
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 2. 캘린더 성능 최적화
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- 일기 존재 여부를 Set으로 변환하여 불필요한 반복 탐색 제거
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 3. 연속 기록(streak) 알고리즘 구현
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- 날짜를 기준으로 역순 탐색하여 현재 연속 기록 계산
+- 정렬 + 인접 날짜 비교를 통해 최대 연속 기록 계산
+
+### 4. UI 상태 관리 분리
+
+- view / edit 모드를 명확히 분리하여 UX 안정성 확보
+- 수정 취소 시 원래 데이터 복구 처리
+
+### 5. 비동기 UX 개선
+
+- mutation onSuccess를 활용한 정확한 사용자 피드백 처리
+- optimistic update를 일부 적용하여 반응성 개선
+
+## 실행 방법
+
+```bash
+npm install
+npm run dev
 ```
