@@ -4,6 +4,20 @@
 
 - 캘린더 기반 UI를 통해 특정 날짜의 일기를 확인하고, 작성/수정/삭제할 수 있으며 연속 기록을 통해 사용자의 기록 습관을 시각적으로 제공합니다.
 
+## 미리보기
+
+### 로그인
+
+<img src="./assets/readme/login.png" alt="로그인 페이지"/>
+
+### 홈
+
+<img src="./assets/readme/home.png" alt="홈 페이지"/>
+
+### 마이페이지
+
+<img src="./assets/readme/mypage.png" alt="마이 페이지"/>
+
 ## 주요 기능
 
 - 📅 캘린더 기반 일기 조회
