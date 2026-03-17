@@ -1,5 +1,7 @@
 # console.log(today)
 
+Demo: https://github.com/goodaseul/console-log-today
+
 - 사용자의 일기를 날짜별로 기록하고 관리할 수 있는 웹 애플리케이션입니다.
 
 - 캘린더 기반 UI를 통해 특정 날짜의 일기를 확인하고, 작성/수정/삭제할 수 있으며 연속 기록을 통해 사용자의 기록 습관을 시각적으로 제공합니다.
