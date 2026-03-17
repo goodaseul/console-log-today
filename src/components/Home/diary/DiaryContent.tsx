@@ -1,7 +1,8 @@
+import type { Mode } from "@/types/diaryType";
 import { useEffect, useRef, useState } from "react";
 
 type Props = {
-  mode: "view" | "edit" | "create";
+  mode: Mode;
   data?: string;
   content: string;
   setContent: (v: string) => void;
@@ -23,10 +24,10 @@ export default function DiaryContent({
     if (!el) return;
 
     const scrollable = el.scrollHeight > el.clientHeight;
-    setHasScroll(scrollable);
+    setHasScroll((prev) => (prev !== scrollable ? scrollable : prev));
 
     const isEnd = el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
-    setIsContentEnd(isEnd);
+    setIsContentEnd((prev) => (prev !== isEnd ? isEnd : prev));
   };
 
   useEffect(() => {
@@ -39,15 +40,17 @@ export default function DiaryContent({
     }
   }, [mode]);
   useEffect(() => {
-    checkScroll();
+    requestAnimationFrame(() => {
+      checkScroll();
+    });
   }, [data]);
 
-  if (mode === "edit" || mode === "create") {
+  const isEditMode = mode === "edit" || mode === "create";
+  if (isEditMode) {
     return (
       <div className="relative h-full">
         <textarea
           placeholder="일기를 작성해주세요."
-          autoFocus
           value={content}
           onChange={(e) => setContent(e.target.value)}
           className="w-full h-full resize-none p-5 focus-visible:outline-none bg-transparent"
@@ -64,7 +67,8 @@ export default function DiaryContent({
     <div
       ref={diaryContentRef}
       onScroll={checkScroll}
-      className={`
+      className={[
+        `
         relative
         whitespace-pre-line break-keep
         overflow-y-auto
@@ -75,7 +79,8 @@ export default function DiaryContent({
           !isContentEnd &&
           "mask-[linear-gradient(to_bottom,black_80%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)]"
         }
-      `}
+      `,
+      ].join(" ")}
     >
       {data ?? "일기가 없습니다."}
     </div>

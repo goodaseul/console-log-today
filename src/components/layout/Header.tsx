@@ -7,16 +7,14 @@ import { toast } from "sonner";
 import { queryClient } from "@/lib/queryClient";
 
 export default function Header() {
-  const user = useAuthStore((state) => state.user);
-  const clearUser = useAuthStore((state) => state.clearUser);
+  const { user, clearUser } = useAuthStore();
+  const { theme, toggleTheme } = useThemeStore();
 
-  const theme = useThemeStore((state) => state.theme);
-  const toggleTheme = useThemeStore((state) => state.toggleTheme);
   const handleLogout = async () => {
     await signOut();
-    toast.success("로그아웃 됐습니다.");
-    queryClient.removeQueries();
     clearUser();
+    queryClient.clear();
+    toast.success("로그아웃 됐습니다.");
   };
   return (
     <header className="flex items-center justify-between p-5">
@@ -27,7 +25,7 @@ export default function Header() {
       </h1>
       <div className="flex items-center gap-2">
         <Button onClick={toggleTheme} variant="light" className="shadow-2xl">
-          {theme === "dark" ? "☀️" : "🌙"}
+          {theme === "dark" ? "🌙" : "☀️"}
         </Button>
         {!user ? (
           <Link to={"/login"}>🔒</Link>
@@ -37,9 +35,9 @@ export default function Header() {
               className="w-8 h-8 rounded-full"
               src={
                 user.avatar_url ??
-                `https://ui-avatars.com/api/?name=${user.nickname}`
+                `https://ui-avatars.com/api/?name=${encodeURIComponent(user.nickname)}`
               }
-              alt={`${user.nickname} 프로필 사진`}
+              alt={`프로필 사진`}
             />
             <Link to={"/mypage"} className="ml-2">
               {user.nickname}

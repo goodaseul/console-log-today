@@ -1,18 +1,22 @@
 import { ko } from "react-day-picker/locale";
 import { format } from "date-fns";
 
+export function formatDate(date: Date, pattern: string) {
+  return format(date, pattern, { locale: ko });
+}
+
 export function formatKoreanMonth(date: Date) {
-  return format(date, "yyyy년 M월", { locale: ko });
+  return formatDate(date, "yyyy년 M월");
 }
 
 export function formatKoreanDate(date: Date) {
-  return format(date, "yyyy년 M월 d일 (EEE)", { locale: ko });
+  return formatDate(date, "yyyy년 M월 d일 (EEE)");
 }
 
 export function toDateKey(date: Date) {
-  return format(date, "yyyy-MM-dd");
+  return formatDate(date, "yyyy-MM-dd");
 }
 
 export function toYearMonth(date: Date) {
-  return format(date, "yyyy-MM");
+  return formatDate(date, "yyyy-MM");
 }

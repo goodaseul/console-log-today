@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Calendar from "./Calendar";
 import DailyDiary from "./DailyDiary";
 import { useDiaryByMonth, useDiaryCount } from "@/hooks/queries";
@@ -6,12 +6,18 @@ import { toYearMonth } from "@/utils/dateFormat";
 import Info from "./Info";
 
 export default function Diary() {
-  const [selected, setSelected] = useState<Date>(new Date());
-  const [month, setMonth] = useState(new Date());
+  const today = new Date();
+  const [selected, setSelected] = useState<Date>(today);
+  const [month, setMonth] = useState(today);
 
   const { data: total } = useDiaryCount();
-  const yearMonth = toYearMonth(month);
+  const yearMonth = useMemo(() => toYearMonth(month), [month]);
   const { data: monthly } = useDiaryByMonth(yearMonth);
+
+  const handleSelect = (date: Date) => {
+    setSelected(date);
+    setMonth(date);
+  };
 
   return (
     <div>
@@ -21,7 +27,8 @@ export default function Diary() {
           month={month}
           onMonth={setMonth}
           selected={selected}
-          onSelect={setSelected}
+          onSelect={handleSelect}
+          yearMonth={yearMonth}
         />
         <DailyDiary selected={selected} />
       </div>

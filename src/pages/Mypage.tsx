@@ -10,6 +10,8 @@ import { uploadAvatar } from "@/api/auth.api";
 
 export default function Mypage() {
   const user = useAuthStore((state) => state.user);
+  const setUser = useAuthStore((state) => state.setUser);
+
   const { data: diaryCount } = useDiaryCount();
   const [mode, setMode] = useState<MypageMode>("view");
   const hours = new Date().getHours();
@@ -33,16 +35,23 @@ export default function Mypage() {
   };
 
   const cancleEdit = () => {
-    toast.error("수정이 취소되었습니다.");
+    if (!user) return;
+    setNickname(user.nickname);
+    setAvatar(user.avatar_url ?? "");
+    setFile(null);
     setMode("view");
+    toast.error("수정이 취소되었습니다.");
   };
   const applyEdit = async () => {
     if (!user) return;
 
     let avatarUrl = avatar;
 
-    if (file) {
-      avatarUrl = await uploadAvatar(file, user.id);
+    try {
+      if (file) avatarUrl = await uploadAvatar(file, user.id);
+    } catch (error) {
+      toast.error(`이미지 업로드 실패 ${error} `);
+      return;
     }
 
     const { success, error } = await updateProfile(
@@ -55,6 +64,12 @@ export default function Mypage() {
       console.log(error);
       return;
     }
+
+    setUser({
+      ...user,
+      nickname,
+      avatar_url: avatarUrl,
+    });
 
     toast.success("수정되었습니다.");
     setMode("view");
@@ -82,19 +97,14 @@ export default function Mypage() {
   return (
     <section className="p-5">
       <div>
-        <Info
-          greetHours={greetHours}
-          diaryCount={diaryCount}
-          nickname={user?.nickname ?? ""}
-        />
-        <div className="mt-5 flex gap-2 justify-end">{buttonStatus}</div>
-        <div className="mt-5 rounded-xl border-white flex items-center gap-5">
+        <div className="flex gap-2 justify-end">{buttonStatus}</div>
+        <div className="my-5 rounded-xl border-white flex items-center gap-5">
           {mode === "view" ? (
             <>
               <img
                 src={
                   user?.avatar_url ??
-                  `https://ui-avatars.com/api/?name=${user?.nickname}`
+                  `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.nickname ?? "")}`
                 }
                 className="w-20 h-20 rounded-full"
                 alt={`${user?.nickname} 프로필 사진`}
@@ -123,13 +133,24 @@ export default function Mypage() {
 
               <input
                 value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
+                onChange={(e) => {
+                  if (!nickname.trim()) {
+                    toast.error("닉네임을 입력해주세요.");
+                    return;
+                  }
+                  setNickname(e.target.value);
+                }}
                 placeholder="닉네임"
                 className="border rounded-md px-3 py-1"
               />
             </>
           )}
         </div>
+        <Info
+          greetHours={greetHours}
+          diaryCount={diaryCount}
+          nickname={user?.nickname ?? ""}
+        />
       </div>
     </section>
   );

@@ -3,19 +3,14 @@ import { useAuthStore } from "@/stores/auth.store";
 
 export const useAuthInit = () => {
   const setUser = useAuthStore((state) => state.setUser);
-  const clearUser = useAuthStore((state) => state.clearUser);
-
   const syncUser = async (userId: string) => {
-    const { data: profile, error } = await supabase
+    const { data: profile } = await supabase
       .from("profiles")
       .select("id, nickname, avatar_url")
       .eq("id", userId)
-      .single();
+      .maybeSingle();
 
-    if (error || !profile) {
-      clearUser();
-      return false;
-    }
+    if (!profile) return false;
 
     setUser({
       id: profile.id,
@@ -28,11 +23,11 @@ export const useAuthInit = () => {
 
   const initSessionUser = async () => {
     const { data, error } = await supabase.auth.getSession();
-
     if (error || !data.session) {
-      clearUser();
-      return;
+      setUser(null);
+      return false;
     }
+
     return await syncUser(data.session?.user.id);
   };
 

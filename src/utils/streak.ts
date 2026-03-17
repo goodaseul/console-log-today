@@ -2,9 +2,9 @@ import { differenceInCalendarDays, format, subDays } from "date-fns";
 
 export function getStreak(data: string[]) {
   const set = new Set(data);
-
   let streak = 0;
-  let current = subDays(new Date(), 1);
+  let current = subDays(new Date(), 1); // 1일전
+
   while (true) {
     const key = format(current, "yyyy-MM-dd");
     if (set.has(key)) {
@@ -14,7 +14,6 @@ export function getStreak(data: string[]) {
       break;
     }
   }
-
   return streak;
 }
 
@@ -27,14 +26,16 @@ export function getMaxStreak(dates: string[]) {
 
   let max = 1;
   let current = 1;
+
   for (let i = 1; i < sorted.length; i++) {
     const diff = differenceInCalendarDays(sorted[i], sorted[i - 1]);
     if (diff === 1) {
       current++;
-      max = Math.max(max, current);
+      max = Math.max(current, max);
     } else if (diff > 1) {
       current = 1;
     }
   }
+
   return max;
 }

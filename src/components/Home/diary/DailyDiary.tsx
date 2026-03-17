@@ -16,17 +16,17 @@ type DailyDiaryProps = {
 export default function DailyDiary({ selected }: DailyDiaryProps) {
   const { mutate: updateMutate } = useUpdateDiary();
   const { mutate: deleteMutate } = useDeleteDiary();
+  const { mutate: createMutate } = useCreateDiary();
   const user = useAuthStore((state) => state.user);
   const dateKey = toDateKey(selected);
   const { data, isLoading, isError } = useDiaryByDate(dateKey);
   const [mode, setMode] = useState<Mode>("view");
   const [diary, setDiary] = useState("");
 
-  const { mutate: createMutate } = useCreateDiary();
-
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMode("view");
+    setDiary("");
   }, [selected]);
 
   const handleCreateDiary = () => {
@@ -34,40 +34,75 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
       toast.error("내용을 입력하세요.");
       return;
     }
-    createMutate({
-      userId: user?.id,
-      content: diary,
-      diaryDate: dateKey,
-    });
-
-    setDiary("");
-    setMode("view");
-    toast.success("일기가 추가됐습니다.");
+    if (!user?.id) return;
+    createMutate(
+      {
+        userId: user?.id,
+        content: diary,
+        diaryDate: dateKey,
+      },
+      {
+        onSuccess: () => {
+          setMode("view");
+          toast.success("일기가 추가됐습니다.");
+        },
+      },
+    );
   };
   const handleRejectDiary = () => {
+    setDiary(data?.content ?? "");
     setMode("view");
   };
   const handleModifyDiary = () => {
-    setMode("edit");
     setDiary(data?.content ?? "");
+    setMode("edit");
   };
   const handleUpdateDiary = () => {
     if (!diary.trim()) return toast.error("수정할 내용을 적어주세요.");
-    updateMutate({
-      userId: user?.id,
-      diaryDate: dateKey,
-      content: diary,
-    });
-    setMode("view");
-    toast.success("일기가 수정됐습니다.");
+    if (!user?.id) return;
+    updateMutate(
+      {
+        userId: user?.id,
+        diaryDate: dateKey,
+        content: diary,
+      },
+      {
+        onSuccess: () => {
+          setDiary("");
+          setMode("view");
+          toast.success("일기가 수정됐습니다.");
+        },
+      },
+    );
   };
   const handleDeleteDiary = () => {
     const ok = confirm("정말 삭제하시겠습니까?");
     if (!ok) return;
 
-    deleteMutate(dateKey);
-    toast.success("일기가 삭제됐습니다.");
+    deleteMutate(dateKey, {
+      onSuccess: () => {
+        setDiary("");
+        setMode("view");
+        toast.success("일기가 삭제됐습니다.");
+      },
+    });
   };
+
+  let content;
+  if (isLoading) {
+    content = <p>로딩 중...</p>;
+  } else if (isError) {
+    content = <p>에러 입니다.</p>;
+  } else {
+    content = (
+      <DiaryContent
+        data={data?.content}
+        mode={mode}
+        content={diary}
+        setContent={setDiary}
+      />
+    );
+  }
   return (
     <div className="mt-5 md:mt-0 flex-1 bg-white text-black p-6 rounded-2xl shadow-md">
       <div className="flex items-center justify-between">
@@ -87,18 +122,7 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
       <div className="mt-5 mb-2 flex items-center justify-between">
         <small className="block">{formatKoreanDate(selected)}</small>
       </div>
-      <div className="h-75 relative">
-        {isLoading && <p>로딩 중..</p>}
-        {isError && <p>에러 입니다. </p>}
-        {!isLoading && !isError && (
-          <DiaryContent
-            data={data?.content}
-            mode={mode}
-            content={diary}
-            setContent={setDiary}
-          />
-        )}
-      </div>
+      <div className="h-75 relative">{content}</div>
     </div>
   );
 }

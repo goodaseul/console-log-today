@@ -4,11 +4,10 @@ import { queryKeys } from "./queryKey";
 import { useAuthStore } from "@/stores/auth.store";
 
 export const useDiaryByMonth = (yearMonth: string) => {
-  const user = useAuthStore((state) => state.user);
-
+  const userId = useAuthStore((state) => state.user?.id);
   return useQuery({
-    queryKey: queryKeys.diary.month(user?.id, yearMonth),
-    queryFn: () => getDiariesByMonth(user!.id, yearMonth),
-    enabled: !!user,
+    queryKey: queryKeys.diary.month(userId, yearMonth),
+    queryFn: () => getDiariesByMonth(userId!, yearMonth),
+    enabled: !!userId,
   });
 };
