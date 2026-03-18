@@ -19,7 +19,10 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
   const { mutate: createMutate } = useCreateDiary();
   const user = useAuthStore((state) => state.user);
   const dateKey = toDateKey(selected);
-  const { data, isLoading, isError } = useDiaryByDate(dateKey);
+  const { data, isLoading, isError } = useDiaryByDate({
+    userId: user?.id ?? "",
+    diaryDate: dateKey,
+  });
   const [mode, setMode] = useState<Mode>("view");
   const [diary, setDiary] = useState("");
 
@@ -78,14 +81,21 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
   const handleDeleteDiary = () => {
     const ok = confirm("정말 삭제하시겠습니까?");
     if (!ok) return;
+    if (!user?.id) return;
 
-    deleteMutate(dateKey, {
-      onSuccess: () => {
-        setDiary("");
-        setMode("view");
-        toast.success("일기가 삭제됐습니다.");
+    deleteMutate(
+      {
+        userId: user.id,
+        diaryDate: dateKey ?? "",
       },
-    });
+      {
+        onSuccess: () => {
+          setDiary("");
+          setMode("view");
+          toast.success("일기가 삭제됐습니다.");
+        },
+      },
+    );
   };
 
   let content;

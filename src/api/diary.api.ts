@@ -1,29 +1,39 @@
 import { supabase } from "@/lib/supabase";
-import type { CreateDiaryRequest, UpdateDiaryRequest } from "./types/diary";
+import type {
+  CreateDiaryRequest,
+  DeleteDiaryRequest,
+  Diary,
+  GetDiariesByMonthRequest,
+  GetDiaryByDateRequest,
+  UpdateDiaryRequest,
+} from "./types/diary";
 
 const TABLE = "diaries";
 
-export const createDiary = async ({
-  userId,
-  content,
-  diaryDate,
-}: CreateDiaryRequest) => {
+export const createDiary = async (
+  payload: CreateDiaryRequest,
+): Promise<Diary> => {
   const { data, error } = await supabase
     .from(TABLE)
-    .insert({
-      userId,
-      content,
-      diaryDate,
+    .upsert(payload, {
+      onConflict: "userId,diaryDate",
     })
     .select()
     .single();
+
   if (error) throw error;
   return data;
 };
+export const getDiariesByMonth = async (
+  payload: GetDiariesByMonthRequest,
+): Promise<Diary[]> => {
+  const { userId, yearMonth } = payload;
 
-export const getDiariesByMonth = async (userId: string, yearMonth: string) => {
+  const [year, month] = yearMonth.split("-").map(Number);
+  const lastDay = new Date(year, month, 0).getDate();
+
   const start = `${yearMonth}-01`;
-  const end = `${yearMonth}-31`;
+  const end = `${yearMonth}-${lastDay}`;
 
   const { data, error } = await supabase
     .from("diaries")
@@ -36,8 +46,12 @@ export const getDiariesByMonth = async (userId: string, yearMonth: string) => {
 
   return data;
 };
-
-export const getDiaryByDate = async (userId: string, diaryDate: string) => {
+export const getDiaryByDate = async (
+  payload: GetDiaryByDateRequest,
+): Promise<{
+  content: string;
+} | null> => {
+  const { userId, diaryDate } = payload;
   const { data, error } = await supabase
     .from(TABLE)
     .select("content")
@@ -48,27 +62,28 @@ export const getDiaryByDate = async (userId: string, diaryDate: string) => {
   if (error) throw error;
   return data;
 };
-
-export const getDiaryCount = async (userId: string) => {
+export const getDiaryCount = async (userId: string): Promise<number> => {
   const { count, error } = await supabase
     .from(TABLE)
     .select("*", { count: "exact", head: true })
     .eq("userId", userId);
 
   if (error) throw error;
-  return count;
+  return count ?? 0;
 };
-
-export const deleteDiary = async (date: string) => {
-  const { error } = await supabase.from(TABLE).delete().eq("diaryDate", date);
+export const deleteDiary = async (payload: DeleteDiaryRequest) => {
+  const { userId, diaryDate } = payload;
+  const { error } = await supabase
+    .from(TABLE)
+    .delete()
+    .eq("userId", userId)
+    .eq("diaryDate", diaryDate);
   if (error) throw error;
 };
-
-export const updateDiary = async ({
-  userId,
-  diaryDate,
-  content,
-}: UpdateDiaryRequest) => {
+export const updateDiary = async (
+  payload: UpdateDiaryRequest,
+): Promise<Diary> => {
+  const { content, userId, diaryDate } = payload;
   const { data, error } = await supabase
     .from(TABLE)
     .update({ content })

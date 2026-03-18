@@ -5,7 +5,7 @@ import { formatKoreanMonth } from "@/utils/dateFormat";
 import Button from "@/components/Button";
 import { useDiaryByMonth } from "@/hooks/queries/useDiaryMonth";
 import { format } from "date-fns";
-import { useMemo } from "react";
+import { useAuthStore } from "@/stores/auth.store";
 
 type CalendarProps = {
   selected: Date;
@@ -22,15 +22,18 @@ export default function Calendar({
   onMonth,
   yearMonth,
 }: CalendarProps) {
-  const { data } = useDiaryByMonth(yearMonth);
+  const user = useAuthStore((state) => state.user);
+
+  const { data } = useDiaryByMonth({
+    userId: user?.id ?? "",
+    yearMonth,
+  });
   const handleToday = () => {
     const today = new Date();
     onSelect(today);
     onMonth(today);
   };
-  const diarySet = useMemo(() => {
-    return new Set(data?.map((diary) => diary.diaryDate));
-  }, [data]);
+  const diarySet = new Set(data?.map((diary) => diary.diaryDate));
   return (
     <div className="flex-1 bg-white/30 p-6 rounded-2xl shadow-md overflow-x-auto">
       <div className="mx-auto w-fit">

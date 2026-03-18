@@ -5,7 +5,7 @@ type Props = {
   mode: Mode;
   data?: string;
   content: string;
-  setContent: (v: string) => void;
+  setContent: (value: string) => void;
 };
 
 export default function DiaryContent({

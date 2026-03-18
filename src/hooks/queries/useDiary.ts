@@ -1,14 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "./queryKey";
 import { getDiaryByDate } from "@/api/diary.api";
-import { useAuthStore } from "@/stores/auth.store";
+import type { GetDiaryByDateRequest } from "@/api/types/diary";
 
-export const useDiaryByDate = (diaryDate: string) => {
-  const user = useAuthStore((state) => state.user);
-
+export const useDiaryByDate = ({
+  userId,
+  diaryDate,
+}: GetDiaryByDateRequest) => {
   return useQuery({
-    queryKey: queryKeys.diary.detail(user?.id, diaryDate),
-    queryFn: () => getDiaryByDate(user!.id, diaryDate),
-    enabled: !!user,
+    queryKey: queryKeys.diary.detail(userId, diaryDate),
+    queryFn: () =>
+      getDiaryByDate({
+        userId,
+        diaryDate,
+      }),
+    enabled: !!userId && !!diaryDate,
   });
 };

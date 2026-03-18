@@ -1,6 +1,5 @@
 import type { Diary } from "@/api/types/diary";
 import { getMaxStreak, getStreak } from "@/utils/streak";
-import { useMemo } from "react";
 
 export default function Info({
   monthly,
@@ -9,19 +8,9 @@ export default function Info({
   monthly: Diary[];
   total: number;
 }) {
-  const { streak, maxStreak } = useMemo(() => {
-    if (monthly.length === 0) {
-      return {
-        streak: 0,
-        maxStreak: 0,
-      };
-    }
-    const dates = monthly.map((diary) => diary.diaryDate);
-    return {
-      streak: getStreak(dates),
-      maxStreak: getMaxStreak(dates),
-    };
-  }, [monthly]);
+  const dates = monthly.map((diary) => diary.diaryDate);
+  const streak = getStreak(dates);
+  const maxStreak = getMaxStreak(dates);
 
   const items = [
     { label: "이번 달 작성", value: `${monthly.length}개` },
