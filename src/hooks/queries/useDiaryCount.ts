@@ -8,7 +8,7 @@ export const useDiaryCount = () => {
 
   return useQuery({
     queryKey: queryKeys.diary.count(userId),
-    queryFn: () => getDiaryCount(userId!),
+    queryFn: () => getDiaryCount(),
     enabled: !!userId,
   });
 };

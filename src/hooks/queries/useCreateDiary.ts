@@ -6,7 +6,7 @@ import { queryKeys } from "./queryKey";
 export const useCreateDiary = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (request: CreateDiaryRequest) => createDiary(request),
+    mutationFn: (payload: CreateDiaryRequest) => createDiary(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: queryKeys.diary.all,
