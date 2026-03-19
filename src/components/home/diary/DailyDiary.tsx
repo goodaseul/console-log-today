@@ -2,7 +2,6 @@ import { useCreateDiary, useDiaryByDate } from "@/hooks/queries";
 import { formatKoreanDate, toDateKey } from "../../../utils/dateFormat";
 import { useEffect, useState } from "react";
 import type { Mode } from "@/types/diaryType";
-import { useAuthStore } from "@/stores/auth.store";
 import { toast } from "sonner";
 import { useUpdateDiary } from "@/hooks/queries/useUpdateDiary";
 import { useDeleteDiary } from "@/hooks/queries/useDeleteDiary";
@@ -17,10 +16,8 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
   const { mutate: updateMutate } = useUpdateDiary();
   const { mutate: deleteMutate } = useDeleteDiary();
   const { mutate: createMutate } = useCreateDiary();
-  const user = useAuthStore((state) => state.user);
   const dateKey = toDateKey(selected);
   const { data, isLoading, isError } = useDiaryByDate({
-    userId: user?.id ?? "",
     diary_date: dateKey,
   });
   const [mode, setMode] = useState<Mode>("view");
@@ -37,10 +34,8 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
       toast.error("내용을 입력하세요.");
       return;
     }
-    if (!user?.id) return;
     createMutate(
       {
-        userId: user?.id,
         content: diary,
         diary_date: dateKey,
       },
@@ -62,10 +57,9 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
   };
   const handleUpdateDiary = () => {
     if (!diary.trim()) return toast.error("수정할 내용을 적어주세요.");
-    if (!user?.id) return;
+
     updateMutate(
       {
-        userId: user?.id,
         diary_date: dateKey,
         content: diary,
       },
@@ -81,11 +75,9 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
   const handleDeleteDiary = () => {
     const ok = confirm("정말 삭제하시겠습니까?");
     if (!ok) return;
-    if (!user?.id) return;
 
     deleteMutate(
       {
-        userId: user.id,
         diary_date: dateKey ?? "",
       },
       {
@@ -116,7 +108,10 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
   return (
     <div className="mt-5 md:mt-0 flex-1 bg-white text-black p-6 rounded-2xl shadow-md">
       <div className="flex items-center justify-between">
-        <small>일기는 날짜당 하나만 가능합니다.</small>
+        <small>
+          일기는 날짜당 <br className="block sm:hidden" />
+          하나만 가능합니다.
+        </small>
         <DailyActionsButtons
           onModify={handleModifyDiary}
           onUpdate={handleUpdateDiary}

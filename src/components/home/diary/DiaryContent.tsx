@@ -40,9 +40,12 @@ export default function DiaryContent({
     }
   }, [mode]);
   useEffect(() => {
-    requestAnimationFrame(() => {
+    const animate = requestAnimationFrame(() => {
       checkScroll();
     });
+    return () => {
+      cancelAnimationFrame(animate);
+    };
   }, [data]);
 
   const isEditMode = mode === "edit" || mode === "create";

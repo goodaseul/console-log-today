@@ -1,7 +1,7 @@
 import { differenceInCalendarDays, format, subDays } from "date-fns";
 
-export function getStreak(data: string[]) {
-  const set = new Set(data);
+export function getStreak(dates: string[]) {
+  const set = new Set(dates);
   let streak = 0;
   let current = subDays(new Date(), 1); // 1일전
 

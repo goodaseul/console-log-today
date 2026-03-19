@@ -13,14 +13,11 @@ export const signUp = async (
     return { success: false, error: error.message };
   }
   if (data.user) {
-    const { error: profileError } = await supabase
-      .from("profiles")
-      .insert({
-        id: data.user.id,
-        nickname,
-        avatar_url: null,
-      })
-      .maybeSingle();
+    const { error: profileError } = await supabase.from("profiles").insert({
+      id: data.user.id,
+      nickname,
+      avatar_url: null,
+    });
     if (profileError) {
       return { success: false, error: profileError.message };
     }

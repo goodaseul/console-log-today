@@ -83,7 +83,7 @@ export default function Mypage() {
       <Button variant="light" onClick={startEdit}>
         수정하기
       </Button>
-      <Button onClick={() => console.log("탈퇴할래영")}>탈퇴하기</Button>
+      {/* <Button onClick={() => console.log("탈퇴할래영")}>탈퇴하기</Button> */}
     </>
   ) : (
     <>

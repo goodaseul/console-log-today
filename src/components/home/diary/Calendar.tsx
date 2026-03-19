@@ -5,7 +5,6 @@ import { formatKoreanMonth } from "@/utils/dateFormat";
 import Button from "@/components/Button";
 import { useDiaryByMonth } from "@/hooks/queries/useDiaryMonth";
 import { format } from "date-fns";
-import { useAuthStore } from "@/stores/auth.store";
 
 type CalendarProps = {
   selected: Date;
@@ -22,10 +21,7 @@ export default function Calendar({
   onMonth,
   yearMonth,
 }: CalendarProps) {
-  const user = useAuthStore((state) => state.user);
-
   const { data } = useDiaryByMonth({
-    userId: user?.id ?? "",
     yearMonth,
   });
   const handleToday = () => {
