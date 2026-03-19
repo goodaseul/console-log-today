@@ -21,7 +21,7 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
   const dateKey = toDateKey(selected);
   const { data, isLoading, isError } = useDiaryByDate({
     userId: user?.id ?? "",
-    diaryDate: dateKey,
+    diary_date: dateKey,
   });
   const [mode, setMode] = useState<Mode>("view");
   const [diary, setDiary] = useState("");
@@ -42,7 +42,7 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
       {
         userId: user?.id,
         content: diary,
-        diaryDate: dateKey,
+        diary_date: dateKey,
       },
       {
         onSuccess: () => {
@@ -66,7 +66,7 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
     updateMutate(
       {
         userId: user?.id,
-        diaryDate: dateKey,
+        diary_date: dateKey,
         content: diary,
       },
       {
@@ -86,7 +86,7 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
     deleteMutate(
       {
         userId: user.id,
-        diaryDate: dateKey ?? "",
+        diary_date: dateKey ?? "",
       },
       {
         onSuccess: () => {

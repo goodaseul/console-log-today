@@ -8,7 +8,7 @@ export default function Info({
   monthly: Diary[];
   total: number;
 }) {
-  const dates = monthly.map((diary) => diary.diaryDate);
+  const dates = monthly.map((diary) => diary.diary_date);
   const streak = getStreak(dates);
   const maxStreak = getMaxStreak(dates);
 

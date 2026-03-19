@@ -32,7 +32,7 @@ export default function Join() {
     naviagate("/");
   };
   return (
-    <div className="max-w-3xl mx-auto py-10 flex justify-center">
+    <div className="max-w-3xl px-5 mx-auto py-10 flex justify-center">
       <form className="w-full max-w-sm" onSubmit={handleSubmit(onSubmit)}>
         <FieldGroup>
           <Field>

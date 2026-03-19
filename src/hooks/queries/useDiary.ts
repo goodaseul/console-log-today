@@ -5,15 +5,15 @@ import type { GetDiaryByDateRequest } from "@/api/types/diary";
 
 export const useDiaryByDate = ({
   userId,
-  diaryDate,
+  diary_date,
 }: GetDiaryByDateRequest) => {
   return useQuery({
-    queryKey: queryKeys.diary.detail(userId, diaryDate),
+    queryKey: queryKeys.diary.detail(userId, diary_date),
     queryFn: () =>
       getDiaryByDate({
         userId,
-        diaryDate,
+        diary_date,
       }),
-    enabled: !!userId && !!diaryDate,
+    enabled: !!userId && !!diary_date,
   });
 };

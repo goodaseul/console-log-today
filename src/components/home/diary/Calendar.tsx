@@ -33,7 +33,7 @@ export default function Calendar({
     onSelect(today);
     onMonth(today);
   };
-  const diarySet = new Set(data?.map((diary) => diary.diaryDate));
+  const diarySet = new Set(data?.map((diary) => diary.diary_date));
   return (
     <div className="flex-1 bg-white/30 p-6 rounded-2xl shadow-md overflow-x-auto">
       <div className="mx-auto w-fit">

@@ -6,8 +6,8 @@ import type { DeleteDiaryRequest } from "@/api/types/diary";
 export const useDeleteDiary = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ userId, diaryDate }: DeleteDiaryRequest) =>
-      deleteDiary({ userId, diaryDate }),
+    mutationFn: ({ userId, diary_date }: DeleteDiaryRequest) =>
+      deleteDiary({ userId, diary_date }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: queryKeys.diary.all,
