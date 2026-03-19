@@ -1,6 +1,6 @@
 # console.log(today)
 
-Demo: https://github.com/goodaseul/console-log-today
+Demo: https://console-log-today-xhnt.vercel.app/
 
 - 사용자의 일기를 날짜별로 기록하고 관리할 수 있는 웹 애플리케이션입니다.
 
