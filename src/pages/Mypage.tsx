@@ -48,17 +48,17 @@ export default function Mypage() {
     let avatarUrl = avatar;
 
     try {
-      if (file) avatarUrl = await uploadAvatar(file, user.id);
+      if (file) avatarUrl = await uploadAvatar({ file, userId: user.id });
     } catch (error) {
       toast.error(`이미지 업로드 실패 ${error} `);
       return;
     }
 
-    const { success, error } = await updateProfile(
-      user.id,
+    const { success, error } = await updateProfile({
+      id: user.id,
       nickname,
-      avatarUrl,
-    );
+      avatar_url: avatarUrl,
+    });
 
     if (!success) {
       console.log(error);
