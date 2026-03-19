@@ -1,5 +1,12 @@
 import { supabase } from "@/lib/supabase";
+import type {
+  SignInRequest,
+  updateAvatarUrlRequest,
+  UpdateProfileRequest,
+} from "./types/auth";
 
+const PROFILE_TABLE = "profiles";
+const AVATAR = "avatars";
 export const signUp = async (
   email: string,
   password: string,
@@ -13,10 +20,10 @@ export const signUp = async (
     return { success: false, error: error.message };
   }
   if (data.user) {
-    const { error: profileError } = await supabase.from("profiles").insert({
+    const { error: profileError } = await supabase.from(PROFILE_TABLE).insert({
       id: data.user.id,
       nickname,
-      avatar_url: null,
+      //   avatar_url: null,
     });
     if (profileError) {
       return { success: false, error: profileError.message };
@@ -26,26 +33,22 @@ export const signUp = async (
   return { success: true, error: null };
 };
 
-export const signIn = async (email: string, password: string) => {
-  return await supabase.auth.signInWithPassword({ email, password });
+export const signIn = async (payload: SignInRequest) => {
+  return await supabase.auth.signInWithPassword({
+    email: payload.email,
+    password: payload.password,
+  });
 };
 
 export const signOut = async () => {
   return await supabase.auth.signOut();
 };
 
-export const updateProfile = async (
-  userId: string,
-  nickname: string,
-  avatar_url: string | null,
-) => {
+export const updateProfile = async ({ id, ...rest }: UpdateProfileRequest) => {
   const { error } = await supabase
-    .from("profiles")
-    .update({
-      nickname,
-      avatar_url,
-    })
-    .eq("id", userId);
+    .from(PROFILE_TABLE)
+    .update({ ...rest })
+    .eq("id", id);
 
   if (error) {
     return { success: false, error: error.message };
@@ -53,16 +56,16 @@ export const updateProfile = async (
 
   return { success: true, error: null };
 };
-export const uploadAvatar = async (file: File, userId: string) => {
-  const filePath = `${userId}/avatar-${Date.now()}`;
+export const uploadAvatar = async (payload: updateAvatarUrlRequest) => {
+  const filePath = `${payload.userId}/avatar-${Date.now()}`;
 
   const { error } = await supabase.storage
     .from("avatars")
-    .upload(filePath, file, { upsert: true });
+    .upload(filePath, payload.file, { upsert: true });
 
   if (error) throw error;
 
-  const { data } = supabase.storage.from("avatars").getPublicUrl(filePath);
+  const { data } = supabase.storage.from(AVATAR).getPublicUrl(filePath);
 
   return data.publicUrl;
 };

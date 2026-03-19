@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { signIn } from "@/api/auth.api";
 import { toast } from "sonner";
+import { syncUser } from "@/api/auth.service";
 
 type LoginInputs = {
   email: string;
@@ -24,16 +25,20 @@ export default function Login() {
   } = useForm<LoginInputs>();
   const navigate = useNavigate();
   const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
-    const { data: res, error } = await signIn(data.email, data.password);
+    const { data: userData, error } = await signIn({
+      email: data.email,
+      password: data.password,
+    });
     if (error) {
       toast.error(error.message);
       return;
     }
-    if (!res?.user) {
+    if (!userData?.user) {
       toast.error("로그인 정보가 없습니다.");
       return;
     }
 
+    await syncUser(userData?.user.id);
     toast.success("로그인에 성공했습니다.");
     navigate("/");
   };
