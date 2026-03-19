@@ -96,7 +96,7 @@ export default function Mypage() {
 
   return (
     <section className="p-5">
-      <div>
+      <div className="max-w-5xl mx-auto">
         <div className="flex gap-2 justify-end">{buttonStatus}</div>
         <div className="my-5 rounded-xl border-white flex items-center gap-5">
           {mode === "view" ? (
