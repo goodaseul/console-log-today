@@ -27,6 +27,7 @@ export const createDiary = async (
   if (error) throw error;
   return data;
 };
+
 export const getDiariesByMonth = async ({
   yearMonth,
 }: {
@@ -36,7 +37,7 @@ export const getDiariesByMonth = async ({
   const lastDay = new Date(year, month, 0).getDate();
 
   const start = `${yearMonth}-01`;
-  const end = `${yearMonth}-${lastDay}`;
+  const end = `${yearMonth}-${String(lastDay).padStart(2, "0")}`;
 
   const { data, error } = await supabase
     .from("diaries")
@@ -68,7 +69,6 @@ export const getDiaryCount = async (): Promise<number> => {
   const { count, error } = await supabase
     .from(TABLE)
     .select("*", { count: "exact", head: true });
-
   if (error) throw error;
   return count ?? 0;
 };

@@ -7,10 +7,7 @@ export const useDiaryByDate = ({ diary_date }: { diary_date: string }) => {
   const userId = useAuthStore((state) => state.user?.id);
   return useQuery({
     queryKey: queryKeys.diary.detail(userId, diary_date),
-    queryFn: () =>
-      getDiaryByDate({
-        diary_date,
-      }),
+    queryFn: () => getDiaryByDate({ diary_date }),
     enabled: !!userId && !!diary_date,
   });
 };

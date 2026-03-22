@@ -1,4 +1,5 @@
-import { differenceInCalendarDays, format, subDays } from "date-fns";
+import { differenceInCalendarDays, subDays } from "date-fns";
+import { toDateKey } from "./dateFormat";
 
 export function getStreak(dates: string[]) {
   const set = new Set(dates);
@@ -6,10 +7,10 @@ export function getStreak(dates: string[]) {
   let current = subDays(new Date(), 1); // 1일전
 
   while (true) {
-    const key = format(current, "yyyy-MM-dd");
+    const key = toDateKey(current);
     if (set.has(key)) {
       streak++;
-      current = subDays(current, 1);
+      current = subDays(current, 1); // 날짜에서 특정날짜만큼 빼주는 subDays
     } else {
       break;
     }

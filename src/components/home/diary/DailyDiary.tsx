@@ -1,13 +1,12 @@
 import { useCreateDiary, useDiaryByDate } from "@/hooks/queries";
 import { formatKoreanDate, toDateKey } from "../../../utils/dateFormat";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { Mode } from "@/types/diaryType";
 import { toast } from "sonner";
 import { useUpdateDiary } from "@/hooks/queries/useUpdateDiary";
 import { useDeleteDiary } from "@/hooks/queries/useDeleteDiary";
 import DailyActionsButtons from "./DailyActionsButtons";
 import DiaryContent from "./DiaryContent";
-import { setDate, setISODay, toDate } from "date-fns";
 
 type DailyDiaryProps = {
   selected: Date;
@@ -23,16 +22,13 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
   });
   const [mode, setMode] = useState<Mode>("view");
   const [diary, setDiary] = useState("");
-  const [, setIsDirty] = useState(false);
 
   const handleChange = (value: string) => {
     setDiary(value);
-    setIsDirty(true);
 
     const key = toDateKey(selected);
     localStorage.setItem(`draft-${key}`, value);
   };
-
   useEffect(() => {
     const key = toDateKey(selected);
     const draft = localStorage.getItem(`draft-${key}`);
@@ -66,6 +62,7 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
       },
       {
         onSuccess: () => {
+          localStorage.removeItem(`draft-${dateKey}`);
           setMode("view");
           toast.success("일기가 추가됐습니다.");
         },

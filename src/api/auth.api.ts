@@ -4,6 +4,7 @@ import type {
   updateAvatarUrlRequest,
   UpdateProfileRequest,
 } from "./types/auth";
+import type { AuthResponse } from "@supabase/supabase-js";
 
 const PROFILE_TABLE = "profiles";
 const AVATAR = "avatars";
@@ -11,7 +12,7 @@ export const signUp = async (
   email: string,
   password: string,
   nickname: string,
-) => {
+): Promise<{ success: boolean; error: string | null }> => {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -33,7 +34,7 @@ export const signUp = async (
   return { success: true, error: null };
 };
 
-export const signIn = async (payload: SignInRequest) => {
+export const signIn = async (payload: SignInRequest): Promise<AuthResponse> => {
   return await supabase.auth.signInWithPassword({
     email: payload.email,
     password: payload.password,
@@ -44,7 +45,13 @@ export const signOut = async () => {
   return await supabase.auth.signOut();
 };
 
-export const updateProfile = async ({ id, ...rest }: UpdateProfileRequest) => {
+export const updateProfile = async ({
+  id,
+  ...rest
+}: UpdateProfileRequest): Promise<{
+  success: boolean;
+  error: string | null;
+}> => {
   const { error } = await supabase
     .from(PROFILE_TABLE)
     .update({ ...rest })
@@ -56,7 +63,9 @@ export const updateProfile = async ({ id, ...rest }: UpdateProfileRequest) => {
 
   return { success: true, error: null };
 };
-export const uploadAvatar = async (payload: updateAvatarUrlRequest) => {
+export const uploadAvatar = async (
+  payload: updateAvatarUrlRequest,
+): Promise<string> => {
   const filePath = `${payload.userId}/avatar-${Date.now()}`;
 
   const { error } = await supabase.storage
