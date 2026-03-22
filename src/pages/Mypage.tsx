@@ -56,10 +56,10 @@ export default function Mypage() {
       toast.error(`이미지 업로드 실패 ${error} `);
       return;
     }
+
     const isNicknameChanged = user.nickname.trim() !== nickname.trim();
     const isAvatarChanged = !!file; // file 선택 여부
 
-    console.log(isAvatarChanged);
     if (!isNicknameChanged && !isAvatarChanged) {
       return toast.error("수정된 정보가 없습니다.");
     }

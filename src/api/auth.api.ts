@@ -69,7 +69,7 @@ export const uploadAvatar = async (
   const filePath = `${payload.userId}/avatar-${Date.now()}`;
 
   const { error } = await supabase.storage
-    .from("avatars")
+    .from(AVATAR)
     .upload(filePath, payload.file, { upsert: true });
 
   if (error) throw error;
