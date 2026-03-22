@@ -56,8 +56,14 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
     setMode("edit");
   };
   const handleUpdateDiary = () => {
+    const originalDiary = data?.content;
     if (!diary.trim()) return toast.error("수정할 내용을 적어주세요.");
 
+    if (diary.trim() === originalDiary?.trim()) {
+      setDiary("");
+      setMode("view");
+      return toast.success("수정한 내용이 없습니다.");
+    }
     updateMutate(
       {
         diary_date: dateKey,
