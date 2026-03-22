@@ -61,7 +61,7 @@ export default function Mypage() {
     });
 
     if (!success) {
-      console.log(error);
+      toast.error(error);
       return;
     }
 
