@@ -61,11 +61,11 @@ Demo: https://console-log-today-xhnt.vercel.app/
 
 - view / edit 모드를 명확히 분리하여 UX 안정성 확보
 - 수정 취소 시 원래 데이터 복구 처리
+- 일기 작성 또는 수정 중 다른 날짜로 이동해도 작성 중인 내용이 localStorage에 자동 저장되어 안전하게 유지
 
 ### 5. 비동기 UX 개선
 
 - mutation onSuccess를 활용한 정확한 사용자 피드백 처리
-- optimistic update를 일부 적용하여 반응성 개선
 
 ### 6. Form 상태 관리 및 유효성 검증
 

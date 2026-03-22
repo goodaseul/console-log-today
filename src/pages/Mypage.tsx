@@ -61,6 +61,7 @@ export default function Mypage() {
     const isAvatarChanged = !!file; // file 선택 여부
 
     if (!isNicknameChanged && !isAvatarChanged) {
+      setMode("view");
       return toast.error("수정된 정보가 없습니다.");
     }
 
