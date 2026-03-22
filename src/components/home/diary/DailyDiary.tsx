@@ -1,12 +1,13 @@
 import { useCreateDiary, useDiaryByDate } from "@/hooks/queries";
 import { formatKoreanDate, toDateKey } from "../../../utils/dateFormat";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Mode } from "@/types/diaryType";
 import { toast } from "sonner";
 import { useUpdateDiary } from "@/hooks/queries/useUpdateDiary";
 import { useDeleteDiary } from "@/hooks/queries/useDeleteDiary";
 import DailyActionsButtons from "./DailyActionsButtons";
 import DiaryContent from "./DiaryContent";
+import { setDate, setISODay, toDate } from "date-fns";
 
 type DailyDiaryProps = {
   selected: Date;
@@ -22,11 +23,35 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
   });
   const [mode, setMode] = useState<Mode>("view");
   const [diary, setDiary] = useState("");
+  const [, setIsDirty] = useState(false);
+
+  const handleChange = (value: string) => {
+    setDiary(value);
+    setIsDirty(true);
+
+    const key = toDateKey(selected);
+    localStorage.setItem(`draft-${key}`, value);
+  };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMode("view");
-    setDiary("");
+    const key = toDateKey(selected);
+    const draft = localStorage.getItem(`draft-${key}`);
+
+    if (draft) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setDiary(draft);
+      setMode("edit");
+
+      return;
+    }
+
+    if (data?.content) {
+      setDiary(data.content);
+      setMode("view");
+    } else {
+      setDiary("");
+      setMode("view");
+    }
   }, [selected]);
 
   const handleCreateDiary = () => {
@@ -48,6 +73,7 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
     );
   };
   const handleRejectDiary = () => {
+    localStorage.removeItem(`draft-${dateKey}`);
     setDiary(data?.content ?? "");
     setMode("view");
   };
@@ -71,6 +97,7 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
       },
       {
         onSuccess: () => {
+          localStorage.removeItem(`draft-${dateKey}`);
           setDiary("");
           setMode("view");
           toast.success("일기가 수정됐습니다.");
@@ -107,7 +134,8 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
         data={data?.content}
         mode={mode}
         content={diary}
-        setContent={setDiary}
+        // setContent={setDiary}
+        setContent={handleChange}
       />
     );
   }
