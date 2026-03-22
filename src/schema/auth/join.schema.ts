@@ -5,7 +5,7 @@ export const joinSchema = z
       .string()
       .min(3, "3자 이상 입력하세요.")
       .max(10, "10자 이하로 입력하세요."),
-    email: z.string().email("이메일 형식이 아닙니다"),
+    email: z.string().email({ message: "이메일 형식이 아닙니다" }),
     password: z.string().min(8, "8자 이상 입력하세요."),
     passwordConfirm: z.string(),
   })
