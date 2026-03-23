@@ -31,7 +31,7 @@ export default function Calendar({
   };
   const diarySet = new Set(data?.map((diary) => diary.diary_date));
   return (
-    <div className="flex-1 bg-white/30 p-6 rounded-2xl shadow-md overflow-x-auto">
+    <div className="flex-1 bg-white/30 p-4 sm:p-6 rounded-2xl shadow-md overflow-x-auto">
       <div className="mx-auto w-fit">
         <div className="flex items-center justify-between">
           <Button onClick={handleToday}>오늘</Button>

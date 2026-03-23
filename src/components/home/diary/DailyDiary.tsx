@@ -158,7 +158,7 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
       <div className="mt-5 mb-2 flex items-center justify-between">
         <small className="block">{formatKoreanDate(selected)}</small>
       </div>
-      <div className="h-75 relative">{content}</div>
+      <div className="h-35 sm:h-75 relative">{content}</div>
     </div>
   );
 }

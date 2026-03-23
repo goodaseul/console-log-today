@@ -21,7 +21,14 @@ export default function Diary() {
   return (
     <div>
       <Info monthly={monthly ?? []} total={total ?? 0} />
-      <div className="md:flex gap-5 md:gap-5 md:justify-between items-stretch">
+      <div
+        className="flex 
+        flex-col-reverse
+        md:flex-row
+        gap-5 md:gap-5 
+        md:justify-between 
+        items-stretch"
+      >
         <Calendar
           month={month}
           onMonth={setMonth}

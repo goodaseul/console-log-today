@@ -20,14 +20,20 @@ export default function Info({
   ];
 
   return (
-    <ul className="grid grid-cols-2 md:grid-cols-4 gap-4 my-6 text-sm md:text-base">
+    <ul className="grid grid-cols-4 gap-2 md:gap-4 my-2 sm:my-4 md:my-6 text-xs md:text-sm">
       {items.map((item) => (
         <li
           key={item.label}
-          className="rounded-xl bg-foreground dark:bg-background text-background dark:text-foreground p-5 text-center shadow-sm"
+          className="
+        rounded-lg md:rounded-xl
+        bg-foreground dark:bg-background
+        text-background dark:text-foreground
+        p-3 md:p-5
+        text-center shadow-sm
+      "
         >
-          <p className="text-xs opacity-60">{item.label}</p>
-          <p className="mt-1 text-2xl font-semibold">{item.value}</p>
+          <p className="opacity-60">{item.label}</p>
+          <p className="mt-1 font-semibold text-sm md:text-md">{item.value}</p>
         </li>
       ))}
     </ul>
