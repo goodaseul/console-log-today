@@ -59,6 +59,7 @@ export default function Calendar({
           }}
           modifiersClassNames={{
             hasDiary: "has-diary",
+            today: "bg-transparnet font-bold",
           }}
         />
       </div>
