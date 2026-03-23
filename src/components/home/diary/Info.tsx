@@ -25,12 +25,12 @@ export default function Info({
         <li
           key={item.label}
           className="
-        rounded-lg md:rounded-xl
-        bg-foreground dark:bg-background
-        text-background dark:text-foreground
-        p-3 md:p-5
-        text-center shadow-sm
-      "
+            rounded-lg md:rounded-xl
+            bg-foreground dark:bg-background
+            text-background dark:text-foreground
+            py-3 px-0 md:p-5
+            text-center shadow-sm
+            "
         >
           <p className="opacity-60">{item.label}</p>
           <p className="mt-1 font-semibold text-sm md:text-md">{item.value}</p>
