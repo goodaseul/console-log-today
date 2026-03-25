@@ -77,12 +77,17 @@ export default function Join() {
             />
             <p>{errors.passwordConfirm?.message}</p>
           </Field>
-          <Link to={"/login"}>
-            <FieldDescription>로그인 ➔</FieldDescription>
-          </Link>
+
           <Button type="submit" className="cursor-pointer">
             회원가입
           </Button>
+
+          <span className="flex items-center">
+            기존 회원이신가요?
+            <Link to={"/login"} className="ml-2 underline">
+              <FieldDescription>로그인 하기</FieldDescription>
+            </Link>
+          </span>
         </FieldGroup>
       </form>
     </div>
