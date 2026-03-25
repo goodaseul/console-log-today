@@ -31,12 +31,13 @@ export default function Calendar({
   };
   const diarySet = new Set(data?.map((diary) => diary.diary_date));
   return (
-    <div className="flex-1 bg-white/30 p-4 sm:p-6 rounded-2xl shadow-md overflow-x-auto">
+    <div className="flex-1  p-4 sm:p-6 rounded-2xl shadow-md overflow-x-auto">
       <div className="mx-auto w-fit">
         <div className="flex items-center justify-between">
           <Button onClick={handleToday}>오늘</Button>
-          <p className="flex items-center gap-1 text-sm">
-            <i className="block w-2 h-2 bg-green-500 rounded-full" /> 일기 있음
+          <p className="flex items-center gap-1.5 text-sm">
+            <i className="block w-1.5 h-1.5 bg-[#4F7C6E] rounded-full" /> 일기
+            있음
           </p>
         </div>
         <DayPicker

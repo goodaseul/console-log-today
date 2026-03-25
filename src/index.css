@@ -3,13 +3,13 @@
 @import "shadcn/tailwind.css";
 
 :root {
-  --background: #0a0a0a;
+  --background: #1a1a1a;
   --foreground: #ededed;
 }
 
 .dark {
   --background: #ededed;
-  --foreground: #0a0a0a;
+  --foreground: #1a1a1a;
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
@@ -63,8 +63,8 @@
 }
 .rdp-today {
   font-weight: bold !important;
-  border: rgba(0, 0, 0, 0.3) !important;
-  background-color: rgba(0, 0, 0, 0.3) !important;
+  border: rgba(26, 26, 26, 0.3) !important;
+  background-color: rgba(26, 26, 26, 0.3) !important;
   color: #fff !important;
   transition: all 0.3s;
   border-radius: 10px !important;
@@ -74,7 +74,7 @@
 .rdp-selected .rdp-day_button {
   background-color: white !important;
   border-color: white !important;
-  color: rgba(0, 0, 0, 0.3) !important;
+  color: rgba(26, 26, 26, 0.3) !important;
 }
 
 .has-diary {
@@ -89,6 +89,6 @@
   transform: translateX(-50%);
   width: 4px;
   height: 4px;
-  background: #22c55e;
+  background: #4f7c6e;
   border-radius: 9999px;
 }
