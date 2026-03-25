@@ -82,10 +82,12 @@ export default function Join() {
             회원가입
           </Button>
 
-          <span className="flex items-center">
+          <span className="flex items-cente text-xs">
             기존 회원이신가요?
             <Link to={"/login"} className="ml-2 underline">
-              <FieldDescription>로그인 하기</FieldDescription>
+              <FieldDescription className="text-xs">
+                로그인 하기
+              </FieldDescription>
             </Link>
           </span>
         </FieldGroup>
