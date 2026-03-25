@@ -5,6 +5,7 @@
 :root {
   --background: #1a1a1a;
   --foreground: #ededed;
+  --calendar-text: #ededed;
 }
 
 .dark {
@@ -39,6 +40,8 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --calendar-accent: rgba(255, 255, 255, 0.2);
+  --calendar-text: #1a1a1a;
 }
 
 @theme inline {
@@ -75,6 +78,11 @@
   background-color: white !important;
   border-color: white !important;
   color: rgba(26, 26, 26, 0.3) !important;
+}
+
+.rdp-nav button svg {
+  /* background-color: var(--calendar-accent) !important; */
+  fill: var(--calendar-text) !important;
 }
 
 .has-diary {
