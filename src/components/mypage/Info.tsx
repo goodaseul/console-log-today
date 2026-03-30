@@ -13,7 +13,7 @@ export default function Info({
   const navigate = useNavigate();
 
   return (
-    <div className="bg-white/10 shadow-2xl p-5 dark:text-foreground text-background rounded-xs">
+    <div className="shadow-2xl p-5 dark:text-foreground text-background bg-foreground dark:bg-background rounded-xs">
       <h2 className="text-lg font-medium">
         좋은 <b>{greetHours}</b> 입니다!
       </h2>
