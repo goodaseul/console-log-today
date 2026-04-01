@@ -38,19 +38,19 @@ export default function DailyActionsButtons({
     <div className="flex gap-2">
       {mode === "create" && (
         <>
-          <Button variant="light" onClick={onCreate}>
-            일기 추가
+          <Button variant="light" onClick={onReject}>
+            작성 취소
           </Button>
-          <Button onClick={onReject}>작성 취소</Button>
+          <Button onClick={onCreate}>일기 추가</Button>
         </>
       )}
 
       {mode === "edit" && (
         <>
-          <Button onClick={onUpdate}>수정 완료</Button>
           <Button variant="light" onClick={onReject}>
             작성 취소
           </Button>
+          <Button onClick={onUpdate}>수정 완료</Button>
         </>
       )}
 
