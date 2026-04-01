@@ -57,7 +57,7 @@ export default function Search({
   }
 
   return (
-    <div className="relative w-full max-w-md">
+    <div className="relative w-full max-w-md mx-auto">
       <input
         type="text"
         value={search}
@@ -72,11 +72,15 @@ export default function Search({
       />
 
       {open && search && (
-        <div className="absolute left-0 top-full w-full bg-background text-foreground border rounded-b-lg shadow-md z-10">
+        <div
+          className="absolute left-0 top-full w-full bg-background text-foreground border rounded-b-lg shadow-md z-10
+            max-h-80 overflow-y-scroll
+        "
+        >
           {isLoading ? (
             <div className="p-3 text-sm text-gray-400">불러오는 중...</div>
           ) : filtered.length > 0 ? (
-            filtered.slice(0, 5).map((item) => (
+            filtered.map((item) => (
               <div
                 key={item.id}
                 onClick={() => {
