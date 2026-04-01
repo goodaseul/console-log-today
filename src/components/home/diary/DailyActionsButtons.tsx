@@ -47,10 +47,10 @@ export default function DailyActionsButtons({
 
       {mode === "edit" && (
         <>
-          <Button variant="light" onClick={onUpdate}>
-            수정 완료
+          <Button onClick={onUpdate}>수정 완료</Button>
+          <Button variant="light" onClick={onReject}>
+            작성 취소
           </Button>
-          <Button onClick={onReject}>작성 취소</Button>
         </>
       )}
 
