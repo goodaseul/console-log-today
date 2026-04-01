@@ -13,7 +13,7 @@ export default function Button({
 }: ButtonProps) {
   const baseStyle = `px-2 py-1 rounded-md cursor-pointer`;
   const variants = {
-    dark: "bg-[#4F7C6E] text-white ",
+    dark: "bg-point text-white ",
     light: "bg-white text-black ",
   };
   return (

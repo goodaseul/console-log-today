@@ -33,8 +33,7 @@ export default function Calendar({
         <div className="flex items-center justify-between">
           <Button onClick={handleToday}>오늘</Button>
           <p className="flex items-center gap-1.5 text-sm">
-            <i className="block w-1.5 h-1.5 bg-[#4F7C6E] rounded-full" /> 일기
-            있음
+            <i className="block w-1.5 h-1.5 bg-point rounded-full" /> 일기 있음
           </p>
         </div>
         <DayPicker

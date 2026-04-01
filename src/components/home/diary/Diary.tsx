@@ -4,6 +4,7 @@ import { toYearMonth } from "@/utils/dateFormat";
 import Info from "./Info";
 import Calendar from "./Calendar";
 import DailyDiary from "./DailyDiary";
+import Search from "./Search";
 
 export default function Diary() {
   const today = new Date();
@@ -13,7 +14,8 @@ export default function Diary() {
   const { data: allDate } = useDiaryAll();
 
   const yearMonth = toYearMonth(month);
-  const monthly = allDate?.filter((date) => date.startsWith(yearMonth)) ?? [];
+  const everyDate = allDate?.map((date) => date.diary_date);
+  const monthly = everyDate?.filter((date) => date.startsWith(yearMonth)) ?? [];
   const handleSelect = (date: Date) => {
     setSelected(date);
     setMonth(date);
@@ -21,7 +23,9 @@ export default function Diary() {
 
   return (
     <div>
-      <Info monthly={monthly} allDate={allDate ?? []} total={total ?? 0} />
+      <Search onSelect={handleSelect} />
+
+      <Info monthly={monthly} allDate={everyDate ?? []} total={total ?? 0} />
       <div
         className="flex 
         flex-col-reverse
@@ -35,7 +39,7 @@ export default function Diary() {
           onMonth={setMonth}
           selected={selected}
           onSelect={handleSelect}
-          allDate={allDate ?? []}
+          allDate={everyDate ?? []}
         />
         <DailyDiary selected={selected} />
       </div>

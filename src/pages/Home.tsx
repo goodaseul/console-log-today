@@ -4,11 +4,6 @@ export default function Home() {
   return (
     <section className="p-5">
       <div className="max-w-5xl mx-auto">
-        {/* <h2 className="text-sm sm:text-xl sm:mb-2 text-center">
-          보고싶은 일기가 있다면
-          <br className="hidden sm:block" /> 날짜를 클릭해주세요.
-        </h2> */}
-
         <Diary />
       </div>
     </section>

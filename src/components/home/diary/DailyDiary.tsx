@@ -1,4 +1,4 @@
-import { useCreateDiary, useDiaryByDate } from "@/hooks/queries";
+import { useCreateDiary, useDiary } from "@/hooks/queries";
 import { formatKoreanDate, toDateKey } from "../../../utils/dateFormat";
 import { useEffect, useState } from "react";
 import type { Mode } from "@/types/diaryType";
@@ -17,7 +17,7 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
   const { mutate: deleteMutate } = useDeleteDiary();
   const { mutate: createMutate } = useCreateDiary();
   const dateKey = toDateKey(selected);
-  const { data, isLoading, isError } = useDiaryByDate({
+  const { data, isLoading, isError } = useDiary({
     diary_date: dateKey,
   });
   const [mode, setMode] = useState<Mode>("view");

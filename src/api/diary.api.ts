@@ -29,10 +29,12 @@ export const createDiary = async (
 };
 
 export const getDiariesAll = async () => {
-  const { data, error } = await supabase.from(TABLE).select("diary_date");
+  const { data, error } = await supabase
+    .from(TABLE)
+    .select("id, diary_date, content");
 
   if (error) throw error;
-  return data.map((d) => d.diary_date);
+  return data;
 };
 export const getDiaryByDate = async ({
   diary_date,
