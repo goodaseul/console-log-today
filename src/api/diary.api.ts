@@ -28,26 +28,11 @@ export const createDiary = async (
   return data;
 };
 
-export const getDiariesByMonth = async ({
-  yearMonth,
-}: {
-  yearMonth: string;
-}): Promise<Diary[]> => {
-  const [year, month] = yearMonth.split("-").map(Number);
-  const lastDay = new Date(year, month, 0).getDate();
-
-  const start = `${yearMonth}-01`;
-  const end = `${yearMonth}-${String(lastDay).padStart(2, "0")}`;
-
-  const { data, error } = await supabase
-    .from("diaries")
-    .select("*")
-    .gte("diary_date", start)
-    .lte("diary_date", end);
+export const getDiariesAll = async () => {
+  const { data, error } = await supabase.from(TABLE).select("diary_date");
 
   if (error) throw error;
-
-  return data;
+  return data.map((d) => d.diary_date);
 };
 export const getDiaryByDate = async ({
   diary_date,

@@ -3,7 +3,6 @@ import { DayPicker } from "react-day-picker";
 import { ko } from "react-day-picker/locale";
 import { formatKoreanMonth } from "@/utils/dateFormat";
 import Button from "@/components/Button";
-import { useDiaryByMonth } from "@/hooks/queries/useDiaryMonth";
 import { format } from "date-fns";
 
 type CalendarProps = {
@@ -11,7 +10,7 @@ type CalendarProps = {
   onSelect: (date: Date) => void;
   month: Date;
   onMonth: (date: Date) => void;
-  yearMonth: string;
+  allDate: string[];
 };
 
 export default function Calendar({
@@ -19,17 +18,15 @@ export default function Calendar({
   onSelect,
   month,
   onMonth,
-  yearMonth,
+  allDate,
 }: CalendarProps) {
-  const { data } = useDiaryByMonth({
-    yearMonth,
-  });
   const handleToday = () => {
     const today = new Date();
     onSelect(today);
     onMonth(today);
   };
-  const diarySet = new Set(data?.map((diary) => diary.diary_date));
+  const diarySet = new Set(allDate);
+
   return (
     <div className="flex-1  p-4 sm:p-6 rounded-2xl shadow-md overflow-x-auto">
       <div className="mx-auto w-fit">

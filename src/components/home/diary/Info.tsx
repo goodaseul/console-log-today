@@ -1,17 +1,16 @@
-import type { Diary } from "@/api/types/diary";
 import { getMaxStreak, getStreak } from "@/utils/streak";
 
 export default function Info({
   monthly,
   total,
+  allDate,
 }: {
-  monthly: Diary[];
+  monthly: string[];
   total: number;
+  allDate: string[];
 }) {
-  const dates = monthly.map((diary) => diary.diary_date);
-  const streak = getStreak(dates);
-  const maxStreak = getMaxStreak(dates);
-
+  const streak = getStreak(allDate);
+  const maxStreak = getMaxStreak(allDate);
   const items = [
     { label: "이번 달 작성", value: `${monthly.length}개` },
     { label: "총 작성", value: `${total}개` },

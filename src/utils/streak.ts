@@ -4,13 +4,13 @@ import { toDateKey } from "./dateFormat";
 export function getStreak(dates: string[]) {
   const set = new Set(dates);
   let streak = 0;
-  let current = subDays(new Date(), 1); // 1일전
+  let current = new Date();
 
   while (true) {
     const key = toDateKey(current);
     if (set.has(key)) {
       streak++;
-      current = subDays(current, 1); // 날짜에서 특정날짜만큼 빼주는 subDays
+      current = subDays(current, 1);
     } else {
       break;
     }
@@ -21,7 +21,7 @@ export function getStreak(dates: string[]) {
 export function getMaxStreak(dates: string[]) {
   if (!dates.length) return 0;
 
-  const sorted = dates
+  const sorted = [...new Set(dates)]
     .map((date) => new Date(date))
     .sort((a, b) => a.getTime() - b.getTime());
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDiaryByMonth, useDiaryCount } from "@/hooks/queries";
+import { useDiaryAll, useDiaryCount } from "@/hooks/queries";
 import { toYearMonth } from "@/utils/dateFormat";
 import Info from "./Info";
 import Calendar from "./Calendar";
@@ -10,9 +10,10 @@ export default function Diary() {
   const [selected, setSelected] = useState<Date>(today);
   const [month, setMonth] = useState(today);
   const { data: total } = useDiaryCount();
-  const yearMonth = toYearMonth(month);
-  const { data: monthly } = useDiaryByMonth({ yearMonth });
+  const { data: allDate } = useDiaryAll();
 
+  const yearMonth = toYearMonth(month);
+  const monthly = allDate?.filter((date) => date.startsWith(yearMonth)) ?? [];
   const handleSelect = (date: Date) => {
     setSelected(date);
     setMonth(date);
@@ -20,7 +21,7 @@ export default function Diary() {
 
   return (
     <div>
-      <Info monthly={monthly ?? []} total={total ?? 0} />
+      <Info monthly={monthly} allDate={allDate ?? []} total={total ?? 0} />
       <div
         className="flex 
         flex-col-reverse
@@ -34,7 +35,7 @@ export default function Diary() {
           onMonth={setMonth}
           selected={selected}
           onSelect={handleSelect}
-          yearMonth={yearMonth}
+          allDate={allDate ?? []}
         />
         <DailyDiary selected={selected} />
       </div>
