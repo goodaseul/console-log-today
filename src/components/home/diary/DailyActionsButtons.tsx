@@ -57,10 +57,10 @@ export default function DailyActionsButtons({
       {mode === "view" &&
         (data ? (
           <>
-            <Button onClick={onModify}>일기 수정</Button>
             <Button variant="light" onClick={onDelete}>
               일기 삭제
             </Button>
+            <Button onClick={onModify}>일기 수정</Button>
           </>
         ) : (
           <Button onClick={handleCreateDiary}>일기 작성</Button>
