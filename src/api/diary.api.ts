@@ -36,6 +36,15 @@ export const getDiariesAll = async () => {
   if (error) throw error;
   return data;
 };
+
+export const getDiarySearch = async (keyword: string) => {
+  const { data, error } = await supabase
+    .from(TABLE)
+    .select("id, diary_date, content")
+    .ilike("content", `%${keyword}%`);
+  if (error) throw error;
+  return data;
+};
 export const getDiaryByDate = async ({
   diary_date,
 }: {

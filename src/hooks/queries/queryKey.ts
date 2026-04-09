@@ -6,6 +6,8 @@ export const queryKeys = {
       [...queryKeys.diary.all, "detail", userId, date] as const,
     allDate: (userId: string | undefined) =>
       [...queryKeys.diary.all, "allDate", userId] as const,
+    search: (userId: string | undefined, keyword: string) =>
+      [...queryKeys.diary.all, "search", userId, keyword] as const,
     count: (userId: string | undefined) =>
       [...queryKeys.diary.all, "count", userId] as const,
   },
