@@ -2,7 +2,7 @@
 
 import { useDiaryAll } from "@/hooks/queries";
 import { formatKoreanDate } from "@/utils/dateFormat";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Search({
   onSelect,
@@ -13,7 +13,7 @@ export default function Search({
   const [debounced, setDebounced] = useState("");
   const [open, setOpen] = useState(false);
 
-  const { data: diaries = [], isLoading } = useDiaryAll();
+  const { data: searchDiary = [], isLoading } = useDiaryAll(debounced);
   useEffect(() => {
     const typing = setTimeout(() => {
       setDebounced(search);
@@ -21,14 +21,6 @@ export default function Search({
 
     return () => clearTimeout(typing);
   }, [search]);
-
-  const filtered = useMemo(() => {
-    if (!debounced) return [];
-    return diaries.filter((item) =>
-      item.content?.toLowerCase().includes(debounced.toLowerCase()),
-    );
-  }, [debounced, diaries]);
-
   function getPreview(content: string, keyword: string) {
     const index = content.toLowerCase().indexOf(keyword.toLowerCase());
     if (index === -1) return content.slice(0, 60);
@@ -79,8 +71,8 @@ export default function Search({
         >
           {isLoading ? (
             <div className="p-3 text-sm text-gray-400">불러오는 중...</div>
-          ) : filtered.length > 0 ? (
-            filtered.map((item) => (
+          ) : searchDiary.length > 0 ? (
+            searchDiary.map((item) => (
               <div
                 key={item.id}
                 onClick={() => {

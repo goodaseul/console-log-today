@@ -3,11 +3,11 @@ import { queryKeys } from "./queryKey";
 import { useAuthStore } from "@/stores/auth.store";
 import { getDiariesAll } from "@/api/diary.api";
 
-export const useDiaryAll = () => {
+export const useDiaryAll = (keyword: string) => {
   const userId = useAuthStore((state) => state.user?.id);
   return useQuery({
-    queryKey: queryKeys.diary.allDate(userId),
-    queryFn: () => getDiariesAll(),
-    enabled: !!userId,
+    queryKey: queryKeys.diary.allDate(userId, keyword),
+    queryFn: () => getDiariesAll(keyword),
+    enabled: !!userId && !!keyword,
   });
 };
