@@ -28,12 +28,20 @@ export const createDiary = async (
   return data;
 };
 
-export const getDiariesAll = async (keyword: string) => {
+export const getDiariesAll = async () => {
+  const { data, error } = await supabase
+    .from(TABLE)
+    .select("id, diary_date, content");
+
+  if (error) throw error;
+  return data;
+};
+
+export const getDiarySearch = async (keyword: string) => {
   const { data, error } = await supabase
     .from(TABLE)
     .select("id, diary_date, content")
     .ilike("content", `%${keyword}%`);
-
   if (error) throw error;
   return data;
 };

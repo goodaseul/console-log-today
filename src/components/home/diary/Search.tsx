@@ -1,6 +1,6 @@
 "use client";
 
-import { useDiaryAll } from "@/hooks/queries";
+import { useDiarySearch } from "@/hooks/queries/useDiarySearch";
 import { formatKoreanDate } from "@/utils/dateFormat";
 import { useEffect, useState } from "react";
 
@@ -13,7 +13,7 @@ export default function Search({
   const [debounced, setDebounced] = useState("");
   const [open, setOpen] = useState(false);
 
-  const { data: searchDiary = [], isLoading } = useDiaryAll(debounced);
+  const { data: searchDiary = [], isLoading } = useDiarySearch(debounced);
   useEffect(() => {
     const typing = setTimeout(() => {
       setDebounced(search);
