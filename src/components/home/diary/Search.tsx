@@ -34,15 +34,19 @@ export default function Search({
   }
 
   function highlightKeyword(text: string, keyword: string) {
-    const index = text.toLowerCase().indexOf(keyword.toLowerCase());
-
+    const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const parts = text.split(new RegExp(`(${escaped})`, "gi"));
     return (
       <>
-        {text.slice(0, index)}
-        <mark className="bg-point text-white rounded-sm">
-          {text.slice(index, index + keyword.length)}
-        </mark>
-        {text.slice(index + keyword.length)}
+        {parts.map((part, i) =>
+          part.toLowerCase() === keyword.toLowerCase() ? (
+            <mark key={i} className="bg-point text-white">
+              {part}
+            </mark>
+          ) : (
+            part
+          ),
+        )}
       </>
     );
   }
