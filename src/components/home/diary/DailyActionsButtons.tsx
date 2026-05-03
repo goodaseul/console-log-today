@@ -36,7 +36,7 @@ export default function DailyActionsButtons({
   };
   return (
     <div className="flex gap-2">
-      {mode === "create" && (
+      {(mode === "create" || mode === "draft") && (
         <>
           <Button variant="light" onClick={onReject}>
             작성 취소

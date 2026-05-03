@@ -48,7 +48,7 @@ export default function DiaryContent({
     };
   }, [data]);
 
-  const isEditMode = mode === "edit" || mode === "create";
+  const isEditMode = mode === "edit" || mode === "create" || mode === "draft";
   if (isEditMode) {
     return (
       <div className="relative h-full">

@@ -1,3 +1,3 @@
-export type Mode = "view" | "create" | "edit";
+export type Mode = "view" | "create" | "edit" | "draft";
 
-export type MypageMode = Exclude<Mode, "create">;
+export type MypageMode = Exclude<Mode, "create" | "draft">;

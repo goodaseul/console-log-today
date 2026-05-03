@@ -21,9 +21,9 @@ export default function Search({
 
     return () => clearTimeout(typing);
   }, [search]);
+
   function getPreview(content: string, keyword: string) {
     const index = content.toLowerCase().indexOf(keyword.toLowerCase());
-    if (index === -1) return content.slice(0, 60);
     const start = Math.max(0, index - 10);
     const end = Math.min(content.length, index + keyword.length + 30);
 
@@ -35,7 +35,6 @@ export default function Search({
 
   function highlightKeyword(text: string, keyword: string) {
     const index = text.toLowerCase().indexOf(keyword.toLowerCase());
-    if (index === -1) return <span>{text}</span>;
 
     return (
       <>

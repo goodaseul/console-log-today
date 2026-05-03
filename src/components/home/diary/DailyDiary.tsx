@@ -23,24 +23,23 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
   const [mode, setMode] = useState<Mode>("view");
   const [diary, setDiary] = useState("");
 
+  const key = toDateKey(selected);
+
   const handleChange = (value: string) => {
     setDiary(value);
-
-    const key = toDateKey(selected);
     localStorage.setItem(`draft-${key}`, value);
   };
+
   useEffect(() => {
-    const key = toDateKey(selected);
     const draft = localStorage.getItem(`draft-${key}`);
 
     if (draft) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setDiary(draft);
-      setMode("edit");
+      setMode("draft");
 
       return;
     }
-
     if (data?.content) {
       setDiary(data.content);
       setMode("view");
@@ -48,7 +47,7 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
       setDiary("");
       setMode("view");
     }
-  }, [selected]);
+  }, [selected, data]);
 
   const handleCreateDiary = () => {
     if (!diary.trim()) {
