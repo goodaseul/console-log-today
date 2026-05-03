@@ -23,15 +23,13 @@ export default function DailyDiary({ selected }: DailyDiaryProps) {
   const [mode, setMode] = useState<Mode>("view");
   const [diary, setDiary] = useState("");
 
-  const key = toDateKey(selected);
-
   const handleChange = (value: string) => {
     setDiary(value);
-    localStorage.setItem(`draft-${key}`, value);
+    localStorage.setItem(`draft-${dateKey}`, value);
   };
 
   useEffect(() => {
-    const draft = localStorage.getItem(`draft-${key}`);
+    const draft = localStorage.getItem(`draft-${dateKey}`);
 
     if (draft) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
