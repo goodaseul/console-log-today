@@ -58,7 +58,7 @@ export default function Mypage() {
     }
 
     const isNicknameChanged = user.nickname.trim() !== nickname.trim();
-    const isAvatarChanged = !!file; // file 선택 여부
+    const isAvatarChanged = !!file;
 
     if (!isNicknameChanged && !isAvatarChanged) {
       setMode("view");
@@ -94,7 +94,6 @@ export default function Mypage() {
       <Button variant="light" onClick={startEdit}>
         수정하기
       </Button>
-      {/* <Button onClick={() => console.log("탈퇴할래영")}>탈퇴하기</Button> */}
     </>
   ) : (
     <>
